@@ -56,8 +56,10 @@ class HunterStore extends FormRequest
         return [
             'playerName.required' => 'You must specify a name for the hunter',
             'playerName.string' => 'The player name must be a string',
+            'playerName.max' => 'The player name must not exceed 255 characters',
             'hunterName.required' => 'You must specify a name for the hunter',
             'hunterName.string' => 'The hunter name must be a string',
+            'hunterName.max' => 'The hunter name must not exceed 255 characters',
             'campaignId.required' => 'You must specify a campaign for the hunter',
             'campaignId.numeric' => 'The campaign ID must be a number',
         ];
@@ -68,11 +70,13 @@ class HunterStore extends FormRequest
         return [
             'playerName.required' => 'HUN-0202-0001',
             'playerName.string' => 'HUN-0202-0002',
-            'hunterName.required' => 'HUN-0202-0003',
-            'hunterName.string' => 'HUN-0202-0004',
-            'campaignId.required' => 'HUN-0202-0005',
-            'campaignId.numeric' => 'HUN-0202-0006',
-            'campaignId.exists' => 'HUN-0202-0007',
+            'playerName.max' => 'HUN-0202-0003',
+            'hunterName.required' => 'HUN-0202-0004',
+            'hunterName.string' => 'HUN-0202-0005',
+            'hunterName.max' => 'HUN-0202-0006',
+            'campaignId.required' => 'HUN-0202-0007',
+            'campaignId.numeric' => 'HUN-0202-0008',
+            'campaignId.exists' => 'HUN-0202-0009',
         ];
     }
 }

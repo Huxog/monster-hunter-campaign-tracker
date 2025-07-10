@@ -35,7 +35,7 @@ class HunterController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Hunter $hunter)
+    public function show(Hunter $hunter): JsonResponse
     {
         try {
             return response()->json(HunterService::getById($hunter->id))->setStatusCode(JsonResponse::HTTP_OK);
