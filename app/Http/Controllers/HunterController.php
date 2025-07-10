@@ -6,12 +6,14 @@ use App\Http\Requests\HunterStore;
 use App\Http\Requests\HunterUpdate;
 use App\Models\Hunter;
 use App\Services\HunterService;
+use App\Traits\FormatExceptionResponse;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 
 class HunterController extends Controller
 {
+     use FormatExceptionResponse;
     /**
      * Display a listing of the resource.
      */
