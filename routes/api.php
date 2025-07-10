@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\HunterController;
 use App\Http\Controllers\MapController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -11,3 +12,4 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource('maps', MapController::class);
 Route::apiResource('campaings', CampaignController::class);
+Route::apiResource('hunters', HunterController::class);
