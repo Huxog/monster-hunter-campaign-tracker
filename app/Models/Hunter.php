@@ -5,41 +5,32 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Campaign extends Model
+class Hunter extends Model
 {
-    /** @use HasFactory<\Database\Factories\CampaignFactory> */
+    /** @use HasFactory<\Database\Factories\HunterFactory> */
     use HasFactory, SoftDeletes;
 
     /** @var string table used to store the model */
-    protected $table = 'campaigns';
+    protected $table = 'hunters';
 
     /** @var string The primary key associated with the table */
     protected $primaryKey = 'id';
 
     /** @var array Attributes that are mass assignable */
     protected $fillable = [
-        'name',
-        'team',
-        'mapId',
+        'playerName',
+        'hunterName',
+        'campaignId',
     ];
 
     /**
-     * Map related to this campaign
+     * Campaing related to this hunter
      *
      **/
-    public function map(): BelongsTo
+    public function campaign(): BelongsTo
     {
-        return self::belongsTo(Map::class, 'mapId', 'id');
-    }
-
-    /**
-     * Get all of the hunters for the Campaign
-     */
-    public function hunters(): HasMany
-    {
-        return $this->hasMany(Hunter::class, 'campaignId', 'id');
+        return self::belongsTo(Campaign::class, 'campaignId', 'id');
     }
 }
