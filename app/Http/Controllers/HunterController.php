@@ -13,7 +13,8 @@ use Illuminate\Http\JsonResponse;
 
 class HunterController extends Controller
 {
-     use FormatExceptionResponse;
+    use FormatExceptionResponse;
+
     /**
      * Display a listing of the resource.
      */
