@@ -3,19 +3,19 @@
 namespace Database\Seeders;
 
 use App\Models\Campaign;
-use App\Models\Map;
+use App\Models\Hunter;
 use Illuminate\Database\Seeder;
 
-class CampaignSeeder extends Seeder
+class HunterSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Map::all()->each(function ($map) {
-            Campaign::factory(5)->create([
-                'mapId' => $map->id,
+        Campaign::all()->each(function ($campaign) {
+            Hunter::factory(rand(1, 4))->create([
+                'campaignId' => $campaign->id,
             ]);
         });
     }
