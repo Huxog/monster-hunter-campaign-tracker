@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Iluminate\Database\Eloquent\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Hunter extends Model
 {
@@ -31,6 +31,6 @@ class Hunter extends Model
      **/
     public function campaign(): BelongsTo
     {
-        return self::belongsTo(Campaing::class, 'campaignId', 'id');
+        return self::belongsTo(Campaign::class, 'campaignId', 'id');
     }
 }
