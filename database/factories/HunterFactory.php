@@ -2,9 +2,8 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Campaign;
-use App\Models\Hunter;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Hunter>
@@ -20,8 +19,8 @@ class HunterFactory extends Factory
     {
         return [
             'playerName' => fake()->name(),
-            'hunterName'=> fake()->word(),
-            'campaignId'=>Campaign::factory(),
+            'hunterName' => fake()->word(),
+            'campaignId' => Campaign::factory(),
         ];
     }
 }

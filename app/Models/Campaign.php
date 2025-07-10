@@ -43,7 +43,7 @@ class Campaign extends Model
      */
     public function hunters(): HasMany
     {
-        return $this->hasMany(Hunter::class);
+        return $this->hasMany(Hunter::class, 'campaignId', 'id');
     }
 
 }

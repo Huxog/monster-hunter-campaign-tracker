@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreHunterRequest;
-use App\Http\Requests\UpdateHunterRequest;
+use App\Http\Requests\HunterStore;
+use App\Http\Requests\HunterUpdate;
 use App\Models\Hunter;
 
 class HunterController extends Controller
@@ -23,7 +23,7 @@ class HunterController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreHunter $request):JsonResponse
+    public function store(HunterStore $request): JsonResponse
     {
         try {
             return response()->json(HunterService::create($request->validated()))->setStatusCode(JsonResponse::HTTP_CREATED);

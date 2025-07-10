@@ -2,34 +2,32 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Iluminate\Database\Eloquent\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Iluminate\Database\Eloquent\BelongsTo;
 
 class Hunter extends Model
 {
-
     /** @use HasFactory<\Database\Factories\HunterFactory> */
     use HasFactory, SoftDeletes;
 
-      /** @var string $table table used to store the model */
+    /** @var string table used to store the model */
     protected $table = 'hunters';
 
-     /** @var string $primaryKey The primary key associated with the table */
+    /** @var string The primary key associated with the table */
     protected $primaryKey = 'id';
 
-    /** @var array $fillable Attributes that are mass assignable */
+    /** @var array Attributes that are mass assignable */
     protected $fillable = [
         'playerName',
         'hunterName',
-        'campaignId'
+        'campaignId',
     ];
 
-     /**
+    /**
      * Campaing related to this hunter
      *
-     * @return BelongsTo
      **/
     public function campaign(): BelongsTo
     {
