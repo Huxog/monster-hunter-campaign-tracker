@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 class AddBodyParameters extends Command
 {
     protected $signature = 'scribe:generate-body-params';
+
     protected $description = 'Add bodyParameters() method to all FormRequest classes that are missing it';
 
     public function handle(): int
@@ -25,7 +26,7 @@ class AddBodyParameters extends Command
             }
 
             // Generate a stubbed method
-            $stub = <<<EOT
+            $stub = <<<'EOT'
 
     /**
      * Provide descriptions and examples for the request body parameters.
@@ -45,7 +46,7 @@ class AddBodyParameters extends Command
 EOT;
 
             // Insert before the final closing brace
-            $updatedContent = preg_replace('/}\s*$/', $stub . "\n}", $content);
+            $updatedContent = preg_replace('/}\s*$/', $stub."\n}", $content);
             File::put($path, $updatedContent);
             $this->info("✔ Added bodyParameters() to {$file->getFilename()}");
             $updated++;

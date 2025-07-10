@@ -27,7 +27,6 @@ class MapController extends Controller
      *
      * @queryParam sort string Field to sort by. Defaults to 'id'
      * @queryParam direction string Direction of the sorting 'asc'/'desc'
-     *
      */
     public function index(): JsonResponse
     {

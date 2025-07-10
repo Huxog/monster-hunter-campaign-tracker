@@ -79,8 +79,6 @@ class CampaignUpdate extends FormRequest
 
     /**
      * Provide descriptions and examples for the request body parameters.
-     *
-     * @return array
      */
     public function bodyParameters(): array
     {
@@ -99,5 +97,4 @@ class CampaignUpdate extends FormRequest
             ],
         ];
     }
-
 }

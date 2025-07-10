@@ -27,7 +27,6 @@ class CampaignController extends Controller
      *
      * @queryParam sort string Field to sort by. Defaults to 'id'
      * @queryParam direction string Direction of the sorting 'asc'/'desc'
-     *
      */
     public function index(): JsonResponse
     {
@@ -42,7 +41,6 @@ class CampaignController extends Controller
      * Store a newly created campaign in storage.
      *
      * @authenticated
-     *
      */
     public function store(CampaignStore $request)
     {
