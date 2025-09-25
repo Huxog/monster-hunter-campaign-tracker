@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             MapSeeder::class,
             CampaignSeeder::class,
             HunterSeeder::class,
+            EquipmentSeeder::class,
         ]);
     }
 }

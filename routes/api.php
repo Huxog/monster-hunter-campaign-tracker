@@ -13,3 +13,4 @@ Route::get('/user', function (Request $request) {
 Route::apiResource('maps', MapController::class);
 Route::apiResource('campaings', CampaignController::class);
 Route::apiResource('hunters', HunterController::class);
+Route::apiResource('equipment', EquipmentController::class);
