@@ -7,11 +7,19 @@ use App\Http\Requests\EquipmentUpdate;
 use App\Models\Equipment;
 use App\Traits\FormatExceptionResponse;
 
+/**
+ * @group Equipments
+ *
+ * Endpoints for managing equipments
+ */
 class EquipmentController extends Controller
 {
     use FormatExceptionResponse;
+
     /**
-     * Display a listing of the resource.
+     * Display a listing of the equipments.
+     *
+     * @authenticated
      */
     public function index()
     {
@@ -24,7 +32,9 @@ class EquipmentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created equipment in storage.
+     *
+     * @authenticated
      */
     public function store(EquipmentStore $request): JsonResponse
     {
@@ -38,7 +48,9 @@ class EquipmentController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified equipment.
+     *
+     * @authenticated
      */
     public function show(Equipment $equipment): JsonResponse
     {
@@ -54,9 +66,10 @@ class EquipmentController extends Controller
         }
     }
 
-
     /**
-     * Update the specified resource in storage.
+     * Update the specified equipment in storage.
+     *
+     * @authenticated
      */
     public function update(EquipmentUpdate $request, Equipment $equipment): JsonResponse
     {
@@ -73,7 +86,9 @@ class EquipmentController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified equipment from storage.
+     *
+     * @authenticated
      */
     public function destroy(Equipment $equipment): JsonResponse
     {

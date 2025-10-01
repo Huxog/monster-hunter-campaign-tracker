@@ -11,12 +11,19 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * @group Equipments
+ *
+ * Endpoints for managing hunters
+ */
 class HunterController extends Controller
 {
     use FormatExceptionResponse;
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the hunters.
+     *
+     * @authenticated
      */
     public function index(): JsonResponse
     {
@@ -28,7 +35,9 @@ class HunterController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created hunter in storage.
+     *
+     * @authenticated
      */
     public function store(HunterStore $request): JsonResponse
     {
@@ -40,7 +49,9 @@ class HunterController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified hunter.
+     *
+     * @authenticated
      */
     public function show(Hunter $hunter): JsonResponse
     {
@@ -54,7 +65,9 @@ class HunterController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified hunter in storage.
+     *
+     * @authenticated
      */
     public function update(HunterUpdate $request, Hunter $hunter): JsonResponse
     {
@@ -68,7 +81,9 @@ class HunterController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified hunter from storage.
+     *
+     * @authenticated
      */
     public function destroy(Hunter $hunter): JsonResponse
     {

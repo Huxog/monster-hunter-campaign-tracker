@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\HunterController;
 use App\Http\Controllers\MapController;
 use Illuminate\Http\Request;

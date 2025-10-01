@@ -2,12 +2,13 @@
 
 namespace App\Http\Requests;
 
-use App\Traits\FormValidationFailure;
+use App\Traits\FormatValidationFailure;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EquipmentStore extends FormRequest
 {
-    use FormValidationFailure;
+    use FormatValidationFailure;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -33,6 +34,7 @@ class EquipmentStore extends FormRequest
             'class' => 'required|string|max:50',
         ];
     }
+
     /**
      * Get the error messages fo the validation rules
      * 3 char entity
@@ -75,6 +77,7 @@ class EquipmentStore extends FormRequest
             'class.max' => 'The class must not exceed 50 characters',
         ];
     }
+
     public function codes(): array
     {
         return [
@@ -95,6 +98,43 @@ class EquipmentStore extends FormRequest
             'class.required' => 'EQU-0202-0015',
             'class.string' => 'EQU-0202-0016',
             'class.max' => 'EQU-0202-0017',
+        ];
+    }
+
+    /**
+     * Provide descriptions and examples for the request body parameters.
+     */
+    public function bodyParameters(): array
+    {
+        return [
+            'name' => [
+                'description' => 'Name for the given equipment',
+                'example' => 'Great Jagras Helm',
+            ],
+            'effect' => [
+                'description' => 'Brief description of the equipment and its effect in case theres any',
+                'example' => 'A helmet made from the scales of a Great Jagras. Offers decent protection. +1 to fire resistance when full armor set is worn.',
+            ],
+            'type' => [
+                'description' => 'What type of equipment is it. Helmet, Vest, Trousers',
+                'example' => 'Helmet',
+            ],
+            'armor' => [
+                'description' => 'Armor value provided by the equipment',
+                'example' => '3',
+            ],
+            'elementalResistance' => [
+                'description' => 'Elemental resistance provided by the equipment',
+                'example' => 'fire',
+            ],
+            'elementalResistanceValue' => [
+                'description' => 'Amount of elemental resistance provided by the equipment',
+                'example' => '2',
+            ],
+            'class' => [
+                'description' => 'What class can use this equipment',
+                'example' => 'Sword and Shield, Great Sword, Dual Blades',
+            ],
         ];
     }
 }

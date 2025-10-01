@@ -79,4 +79,26 @@ class HunterStore extends FormRequest
             'campaignId.exists' => 'HUN-0202-0009',
         ];
     }
+
+    /**
+     * Provide descriptions and examples for the request body parameters.
+     */
+    public function bodyParameters(): array
+    {
+        return [
+            'playerName' => [
+                'description' => 'The name of the player controlling the hunter',
+                'example' => 'Volovin Volovan',
+            ],
+            'hunterName' => [
+                'description' => 'The name of the hunter',
+                'example' => 'Geralt of Rivia',
+            ],
+            'campaignId' => [
+                'description' => 'The ID of the campaign the hunter belongs to',
+                'example' => 1,
+            ],
+
+        ];
+    }
 }
