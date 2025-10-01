@@ -23,7 +23,7 @@ class Campaign extends Model
     protected $fillable = [
         'name',
         'teamName',
-        'mapId'
+        'mapId',
     ];
 
     /**

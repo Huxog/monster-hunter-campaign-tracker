@@ -27,7 +27,7 @@ class CampaignStore extends FormRequest
         return [
             'name' => 'required|string',
             'teamName' => 'required|string',
-            'mapId' => 'sometimes|numeric|exists:maps,id,deleted_at,NULL'
+            'mapId' => 'sometimes|numeric|exists:maps,id,deleted_at,NULL',
         ];
     }
 

@@ -1,7 +1,6 @@
 name: Laravel Tests
 
 on:
-  push:
   pull_request:
     branches:
       - main
