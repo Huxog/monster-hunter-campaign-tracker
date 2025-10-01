@@ -8,6 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class MapUpdate extends FormRequest
 {
     use FormatValidationFailure;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -45,7 +46,9 @@ class MapUpdate extends FormRequest
      *      delete     -> 05
      *      custom     -> 06
      * 4 digit sequence map
+     *
      * @return array<string, string>
+     *
      * @throws conditon
      **/
     public function messages(): array
@@ -63,6 +66,19 @@ class MapUpdate extends FormRequest
             'name.required' => 'MAP-0204-0001',
             'name.string' => 'MAP-0204-0002',
             'name.unique' => 'MAP-0204-0003',
+        ];
+    }
+
+    /**
+     * Provide descriptions and examples for the request body parameters.
+     */
+    public function bodyParameters(): array
+    {
+        return [
+            'name' => [
+                'description' => 'The name of the map',
+                'example' => 'Ancient Forest',
+            ],
         ];
     }
 }

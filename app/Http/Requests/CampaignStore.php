@@ -8,6 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class CampaignStore extends FormRequest
 {
     use FormatValidationFailure;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -47,6 +48,7 @@ class CampaignStore extends FormRequest
      *      delete     -> 05
      *      custom     -> 06
      * 4 digit sequence map
+     *
      * @return array<string, string>
      **/
     public function messages(): array
@@ -57,7 +59,7 @@ class CampaignStore extends FormRequest
             'teamName.required' => 'Please name your team for this campaign',
             'teamName.string' => 'The team name must be a string',
             'mapId.numeric' => 'Must be a valid map identifier',
-            'mapId.exists' => 'No valid map found'
+            'mapId.exists' => 'No valid map found',
         ];
     }
 
@@ -70,6 +72,27 @@ class CampaignStore extends FormRequest
             'teamName.string' => 'CAM-0202-0004',
             'mapId.numeric' => 'CAM-0202-0005',
             'mapId.exists' => 'CAM-0202-0006',
+        ];
+    }
+
+    /**
+     * Provide descriptions and examples for the request body parameters.
+     */
+    public function bodyParameters(): array
+    {
+        return [
+            'name' => [
+                'description' => 'The name of the campaign',
+                'example' => 'Super awesome campaign',
+            ],
+            'team' => [
+                'description' => 'The name of the team that will play on the campaign',
+                'example' => 'Power rangers',
+            ],
+            'mapId' => [
+                'description' => 'The map in which the campaign will be played',
+                'example' => '2',
+            ],
         ];
     }
 }

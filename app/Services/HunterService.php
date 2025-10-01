@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
-use App\Models\Campaign;
+use App\Models\Hunter;
 use App\Traits\ApiResponse;
 
-class CampaignService
+class HunterService
 {
     use ApiResponse;
 
@@ -14,7 +14,7 @@ class CampaignService
      */
     public static function getAll(): array
     {
-        return self::arrayResponse(Campaign::with('map')->get());
+        return self::arrayResponse(Hunter::with('campaign')->get());
     }
 
     /**
@@ -24,7 +24,7 @@ class CampaignService
      */
     public static function getById($id): array
     {
-        return self::arrayResponse(Campaign::findOrFail($id));
+        return self::arrayResponse(Hunter::with('campaign')->findOrFail($id));
     }
 
     /**
@@ -34,35 +34,35 @@ class CampaignService
      */
     public static function create($data): array
     {
-        $newCampaign = Campaign::create($data);
+        $newHunter = Hunter::create($data);
 
-        return self::arrayResponse($newCampaign);
+        return self::arrayResponse($newHunter);
     }
 
     /**
      * Function description
      *
      * @param  array  $data
-     * @param  int  $id
+     * @param  array  $id
      */
     public static function update($data, $id): array
     {
-        $updatedCampaign = Campaign::findOrFail($id);
-        $updatedCampaign = Campaign::update($data);
+        $updatedHunter = Hunter::findOrFail($id);
+        $updatedHunter = Hunter::update($data);
 
-        return self::arrayResponse($updatedCampaign);
+        return self::arrayResponse($updatedHunter);
     }
 
     /**
      * Function description
      *
-     * @param  int  $id
+     * @param  array  $id
      */
     public static function delete($id): array
     {
-        $deletedCampaign = Campaign::findOrFail($id);
-        Campaign::delete($id);
+        $deletedHunter = Hunter::findOrFail($id);
+        Hunter::delete($id);
 
-        return self::arrayResponse($deletedCampaign);
+        return self::arrayResponse($deletedHunter);
     }
 }

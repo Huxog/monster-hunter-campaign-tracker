@@ -8,6 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class CampaignUpdate extends FormRequest
 {
     use FormatValidationFailure;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -26,7 +27,7 @@ class CampaignUpdate extends FormRequest
         return [
             'name' => 'required|string',
             'team' => 'required|string',
-            'mapId' => 'sometimes|numeric|exists:maps,id,deleted_at,NULL'
+            'mapId' => 'sometimes|numeric|exists:maps,id,deleted_at,NULL',
         ];
     }
 
@@ -47,7 +48,9 @@ class CampaignUpdate extends FormRequest
      *      delete     -> 05
      *      custom     -> 06
      * 4 digit sequence map
+     *
      * @return array<string, string>
+     *
      * @throws conditon
      **/
     public function messages(): array
@@ -58,7 +61,7 @@ class CampaignUpdate extends FormRequest
             'team.required' => 'Please name your team for this campaign',
             'team.string' => 'The team name must be a string',
             'mapId.numeric' => 'Must be a valid map identifier',
-            'mapId.exists' => 'No valid map found'
+            'mapId.exists' => 'No valid map found',
         ];
     }
 
@@ -71,6 +74,27 @@ class CampaignUpdate extends FormRequest
             'team.string' => 'CAM-0204-0004',
             'mapId.numeric' => 'CAM-0204-0005',
             'mapId.exists' => 'CAM-0204-0006',
+        ];
+    }
+
+    /**
+     * Provide descriptions and examples for the request body parameters.
+     */
+    public function bodyParameters(): array
+    {
+        return [
+            'name' => [
+                'description' => 'The name of the campaign',
+                'example' => 'Super awesome campaign',
+            ],
+            'team' => [
+                'description' => 'The name of the team that will play on the campaign',
+                'example' => 'Power rangers',
+            ],
+            'mapId' => [
+                'description' => 'The map in which the campaign will be played',
+                'example' => '2',
+            ],
         ];
     }
 }

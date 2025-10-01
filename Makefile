@@ -4,8 +4,8 @@ APP_SERVICE=mh-app-service
 
 # Storage fix commands
 chown:
-	docker exec $(APP_SERVICE) chown -R 82:82 /var/www/html/storage
-	docker exec $(APP_SERVICE) chmod -R 775 /var/www/html/storage
+	docker exec $(APP_SERVICE) chown -R www-data:www-data /var/www/html/storage
+	docker exec $(APP_SERVICE) chmod -R 777 /var/www/html/storage
 
 # Laravel Artisan Commands
 migrate:
@@ -25,6 +25,12 @@ test:
 
 key-generate:
 	docker exec $(APP_SERVICE) php artisan key:generate
+
+lint-test:
+	./vendor/bin/pint --test
+    
+lint:
+	./vendor/bin/pint
 
 # Composer
 install:
@@ -71,4 +77,6 @@ help:
 	@echo "  make test            - Run tests"
 	@echo "  make key-generate    - Run generate app key"
 	@echo "  make install         - Run composer install"
+	@echo "  make lint            - Check and apply lint rules"
+	@echo "  make lint-test       - List unnmet lint rules"
 	@echo "  make chown           - fix storage access permissions"
