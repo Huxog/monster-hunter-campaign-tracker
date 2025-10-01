@@ -1,6 +1,9 @@
 name: Laravel Tests
 
 on:
+  push:
+    branches:
+      - 6-set-up-testing-pipelines-on-repo
   pull_request:
     branches:
       - main
