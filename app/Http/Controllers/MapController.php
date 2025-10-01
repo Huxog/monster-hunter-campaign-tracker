@@ -11,12 +11,22 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * @group Maps
+ *
+ * Endpoints for managing maps
+ */
 class MapController extends Controller
 {
     use FormatExceptionResponse;
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of maps.
+     *
+     * @authenticated
+     *
+     * @queryParam sort string Field to sort by. Defaults to 'id'
+     * @queryParam direction string Direction of the sorting 'asc'/'desc'
      */
     public function index(): JsonResponse
     {
@@ -28,7 +38,9 @@ class MapController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created map in storage.
+     *
+     * @authenticated
      */
     public function store(MapStore $request): JsonResponse
     {
@@ -40,7 +52,9 @@ class MapController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified map.
+     *
+     * @authenticated
      */
     public function show(Map $map): JsonResponse
     {
@@ -54,7 +68,9 @@ class MapController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified map in storage.
+     *
+     * @authenticated
      */
     public function update(MapUpdate $request, Map $map): JsonResponse
     {
@@ -68,7 +84,9 @@ class MapController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified map from storage.
+     *
+     * @authenticated
      */
     public function destroy(Map $map): JsonResponse
     {
