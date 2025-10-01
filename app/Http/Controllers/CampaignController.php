@@ -11,12 +11,22 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * @group Campaigns
+ *
+ * Endpoints for managing campaigns
+ */
 class CampaignController extends Controller
 {
     use FormatExceptionResponse;
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of campaigns.
+     *
+     * @authenticated
+     *
+     * @queryParam sort string Field to sort by. Defaults to 'id'
+     * @queryParam direction string Direction of the sorting 'asc'/'desc'
      */
     public function index(): JsonResponse
     {
@@ -28,7 +38,9 @@ class CampaignController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created campaign in storage.
+     *
+     * @authenticated
      */
     public function store(CampaignStore $request)
     {
@@ -40,7 +52,9 @@ class CampaignController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified campaign.
+     *
+     * @authenticated
      */
     public function show(Campaign $campaign)
     {
@@ -54,7 +68,9 @@ class CampaignController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified campaign in storage.
+     *
+     * @authenticated
      */
     public function update(CampaignUpdate $request, Campaign $campaign)
     {
@@ -68,7 +84,9 @@ class CampaignController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified campaign from storage.
+     *
+     * @authenticated
      */
     public function destroy(Campaign $campaign)
     {
