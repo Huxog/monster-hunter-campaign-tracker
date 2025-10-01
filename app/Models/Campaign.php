@@ -22,7 +22,7 @@ class Campaign extends Model
     /** @var array $fillable Attributes that are mass assignable */
     protected $fillable = [
         'name',
-        'team',
+        'teamName',
         'mapId'
     ];
 

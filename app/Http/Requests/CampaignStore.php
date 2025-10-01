@@ -25,7 +25,7 @@ class CampaignStore extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'team' => 'required|string',
+            'teamName' => 'required|string',
             'mapId' => 'sometimes|numeric|exists:maps,id,deleted_at,NULL'
         ];
     }
@@ -54,8 +54,8 @@ class CampaignStore extends FormRequest
         return [
             'name.required' => 'You must specify a name for the campaign',
             'name.string' => 'The name must be a string',
-            'team.required' => 'Please name your team for this campaign',
-            'team.string' => 'The team name must be a string',
+            'teamName.required' => 'Please name your team for this campaign',
+            'teamName.string' => 'The team name must be a string',
             'mapId.numeric' => 'Must be a valid map identifier',
             'mapId.exists' => 'No valid map found'
         ];
@@ -66,8 +66,8 @@ class CampaignStore extends FormRequest
         return [
             'name.required' => 'CAM-0202-0001',
             'name.string' => 'CAM-0202-0002',
-            'team.required' => 'CAM-0202-0003',
-            'team.string' => 'CAM-0202-0004',
+            'teamName.required' => 'CAM-0202-0003',
+            'teamName.string' => 'CAM-0202-0004',
             'mapId.numeric' => 'CAM-0202-0005',
             'mapId.exists' => 'CAM-0202-0006',
         ];
