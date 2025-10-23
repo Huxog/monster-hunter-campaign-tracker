@@ -15,8 +15,8 @@ class EquipmentSeeder extends Seeder
     public function run(): void
     {
         Equipment::factory(200)->create();
-        Hunter::all()->each(function ($campaign) {
-            $campaign->update([
+        Hunter::all()->each(function ($hunter) {
+            $hunter->update([
                 'helmet' => Equipment::where('type', EquipmentClass::Helmet)->inRandomOrder()->first()->id,
                 'vest' => Equipment::where('type', EquipmentClass::Vest)->inRandomOrder()->first()->id,
                 'trousers' => Equipment::where('type', EquipmentClass::Trousers)->inRandomOrder()->first()->id,

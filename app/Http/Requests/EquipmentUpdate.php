@@ -26,7 +26,7 @@ class EquipmentUpdate extends FormRequest
             'effect' => 'nullable|text',
             'type' => 'required|char|min:1|max:1',
             'armor' => 'nullable|Integer|min:0|max:5',
-            'elementalResistance' => 'nullable|max:50',
+            'elementalResistance' => 'nullable|string|max:50',
             'elementalResistanceValue' => 'nullable|integer|min:1|max:5',
             'class' => 'nullable|string|max:50',
         ];
@@ -65,6 +65,7 @@ class EquipmentUpdate extends FormRequest
             'armor.integer' => 'The armor value must be an integer',
             'armor.min' => 'The armor value must be at least 0',
             'armor.max' => 'The armor value must not exceed 5',
+            'elementalResistance.string' => 'The elemental resistance must be a string',
             'elementalResistance.max' => 'The elemental resistance must not exceed 50 characters',
             'elementalResistanceValue.integer' => 'The elemental resistance value must be an integer',
             'elementalResistanceValue.min' => 'The elemental resistance value must be at least 1',
@@ -88,13 +89,14 @@ class EquipmentUpdate extends FormRequest
             'armor.integer' => 'EQUIP-0204-0008',
             'armor.min' => 'EQUIP-0204-0009',
             'armor.max' => 'EQUIP-0204-0010',
-            'elementalResistance.max' => 'EQUIP-0204-0011',
-            'elementalResistanceValue.integer' => 'EQUIP-0204-0012',
-            'elementalResistanceValue.min' => 'EQUIP-0204-0013',
-            'elementalResistanceValue.max' => 'EQUIP-0204-0014',
-            'class.required' => 'EQUIP-0204-0015',
-            'class.string' => 'EQUIP-0204-0016',
-            'class.max' => 'EQUIP-0204-0017',
+            'elementalResistance.string' => 'EQUIP-0204-0011',
+            'elementalResistance.max' => 'EQUIP-0204-0012',
+            'elementalResistanceValue.integer' => 'EQUIP-0204-0013',
+            'elementalResistanceValue.min' => 'EQUIP-0204-0014',
+            'elementalResistanceValue.max' => 'EQUIP-0204-0015',
+            'class.required' => 'EQUIP-0204-0016',
+            'class.string' => 'EQUIP-0204-0017',
+            'class.max' => 'EQUIP-0204-0018',
         ];
     }
 

@@ -10,7 +10,7 @@ class EquipmentService
     use ApiResponse;
 
     /**
-     * Function description
+     * Function to get all equipments list
      */
     public static function getAll(): array
     {
@@ -18,7 +18,7 @@ class EquipmentService
     }
 
     /**
-     * Function description
+     * Function to get a single equipment by its ID
      *
      * @param  int  $id
      */
@@ -28,7 +28,7 @@ class EquipmentService
     }
 
     /**
-     * Function description
+     * Function for creating a new equipment
      *
      * @param  array  $data
      */
@@ -40,7 +40,7 @@ class EquipmentService
     }
 
     /**
-     * Function description
+     * Function for updating an existing equipment using its ID
      *
      * @param  array  $data
      * @param  array  $id
@@ -54,7 +54,7 @@ class EquipmentService
     }
 
     /**
-     * Function description
+     * Function for deleting an equipment using its ID
      *
      * @param  array  $id
      */

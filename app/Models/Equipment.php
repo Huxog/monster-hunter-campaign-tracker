@@ -27,4 +27,22 @@ class Equipment extends Model
         'elementalResistanceValue',
         'class',
     ];
+
+    /**
+     * Get the hunter who owns the equipment
+     */
+    public function hunter(): belongsto
+    {
+        switch  ($this->type) {
+            case 'Helmet':
+                return $this->belongsTo(Hunter::class,'helmet', 'id');
+            case 'Vest':
+                return $this->belongsTo(Hunter::class,'vest', 'id');
+            case 'Trousers':
+                return $this->belongsTo(Hunter::class,'trousers', 'id');
+            default:
+                throw new \Exception("Invalid equipment type");
+        }
+    }
+
 }
