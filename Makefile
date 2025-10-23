@@ -59,6 +59,9 @@ rebuild:
 logs:
 	docker logs -f $(APP_SERVICE)
 
+scribe:
+	docker exec $(APP_SERVICE) php artisan scribe:generate
+
 # Default target
 .DEFAULT_GOAL := help
 
@@ -80,3 +83,4 @@ help:
 	@echo "  make lint            - Check and apply lint rules"
 	@echo "  make lint-test       - List unnmet lint rules"
 	@echo "  make chown           - fix storage access permissions"
+	@echo "  make scribe		  - generate API documentation"

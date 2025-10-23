@@ -28,7 +28,7 @@ endpoints:
         name: sort
         description: "Field to sort by. Defaults to 'id'"
         required: false
-        example: architecto
+        example: consequatur
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -38,22 +38,22 @@ endpoints:
         name: direction
         description: "Direction of the sorting 'asc'/'desc'"
         required: false
-        example: architecto
+        example: consequatur
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanQueryParameters:
-      sort: architecto
-      direction: architecto
+      sort: consequatur
+      direction: consequatur
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
     responses:
       -
-        status: 500
-        content: '{"message":"SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for mysql failed: Temporary failure in name resolution (Connection: mysql, SQL: select * from `maps` where `maps`.`deleted_at` is null)","code":"UMP-0200-0000"}'
+        status: 200
+        content: '{"metadata":[],"data":[{"id":1,"name":"Azerbaijan","created_at":"2025-09-25T06:17:55.000000Z","updated_at":"2025-09-25T06:17:55.000000Z","deleted_at":null},{"id":2,"name":"Israel","created_at":"2025-09-25T06:17:55.000000Z","updated_at":"2025-09-25T06:17:55.000000Z","deleted_at":null},{"id":3,"name":"Germany","created_at":"2025-09-25T06:17:55.000000Z","updated_at":"2025-09-25T06:17:55.000000Z","deleted_at":null},{"id":4,"name":"Zimbabwe","created_at":"2025-09-25T06:17:55.000000Z","updated_at":"2025-09-25T06:17:55.000000Z","deleted_at":null},{"id":5,"name":"Bolivia","created_at":"2025-09-25T06:17:55.000000Z","updated_at":"2025-09-25T06:17:55.000000Z","deleted_at":null},{"id":6,"name":"Mauritius","created_at":"2025-09-25T06:17:55.000000Z","updated_at":"2025-09-25T06:17:55.000000Z","deleted_at":null},{"id":7,"name":"Angola","created_at":"2025-09-25T06:17:55.000000Z","updated_at":"2025-09-25T06:17:55.000000Z","deleted_at":null},{"id":8,"name":"Morocco","created_at":"2025-09-25T06:17:55.000000Z","updated_at":"2025-09-25T06:17:55.000000Z","deleted_at":null},{"id":9,"name":"Iraq","created_at":"2025-09-25T06:17:55.000000Z","updated_at":"2025-09-25T06:17:55.000000Z","deleted_at":null},{"id":10,"name":"Tonga","created_at":"2025-09-25T06:17:55.000000Z","updated_at":"2025-09-25T06:17:55.000000Z","deleted_at":null}]}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -132,14 +132,14 @@ endpoints:
         name: id
         description: 'The ID of the map.'
         required: true
-        example: 16
+        example: 1
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanUrlParameters:
-      id: 16
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -147,11 +147,8 @@ endpoints:
     fileParameters: []
     responses:
       -
-        status: 500
-        content: |-
-          {
-              "message": "Server Error"
-          }
+        status: 200
+        content: '{"metadata":[],"data":{"id":1,"name":"Azerbaijan","created_at":"2025-09-25T06:17:55.000000Z","updated_at":"2025-09-25T06:17:55.000000Z","deleted_at":null}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -188,14 +185,14 @@ endpoints:
         name: id
         description: 'The ID of the map.'
         required: true
-        example: 16
+        example: 1
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanUrlParameters:
-      id: 16
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -242,14 +239,14 @@ endpoints:
         name: id
         description: 'The ID of the map.'
         required: true
-        example: 16
+        example: 1
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanUrlParameters:
-      id: 16
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

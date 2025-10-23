@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\HunterController;
 use App\Http\Controllers\MapController;
 use Illuminate\Http\Request;
@@ -13,3 +14,4 @@ Route::get('/user', function (Request $request) {
 Route::apiResource('maps', MapController::class);
 Route::apiResource('campaings', CampaignController::class);
 Route::apiResource('hunters', HunterController::class);
+Route::apiResource('equipment', EquipmentController::class);
