@@ -26,7 +26,7 @@ class CampaignUpdate extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'team' => 'required|string',
+            'teamName' => 'required|string',
             'mapId' => 'sometimes|numeric|exists:maps,id,deleted_at,NULL',
         ];
     }
@@ -58,8 +58,8 @@ class CampaignUpdate extends FormRequest
         return [
             'name.required' => 'You must specify a name for the campaign',
             'name.string' => 'The name must be a string',
-            'team.required' => 'Please name your team for this campaign',
-            'team.string' => 'The team name must be a string',
+            'teamName.required' => 'Please name your team for this campaign',
+            'teamName.string' => 'The team name must be a string',
             'mapId.numeric' => 'Must be a valid map identifier',
             'mapId.exists' => 'No valid map found',
         ];
@@ -70,8 +70,8 @@ class CampaignUpdate extends FormRequest
         return [
             'name.required' => 'CAM-0204-0001',
             'name.string' => 'CAM-0204-0002',
-            'team.required' => 'CAM-0204-0003',
-            'team.string' => 'CAM-0204-0004',
+            'teamName.required' => 'CAM-0204-0003',
+            'teamName.string' => 'CAM-0204-0004',
             'mapId.numeric' => 'CAM-0204-0005',
             'mapId.exists' => 'CAM-0204-0006',
         ];
@@ -87,7 +87,7 @@ class CampaignUpdate extends FormRequest
                 'description' => 'The name of the campaign',
                 'example' => 'Super awesome campaign',
             ],
-            'team' => [
+            'teamName' => [
                 'description' => 'The name of the team that will play on the campaign',
                 'example' => 'Power rangers',
             ],

@@ -11,5 +11,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::apiResource('maps', MapController::class);
-Route::apiResource('campaings', CampaignController::class);
+Route::apiResource('campaigns', CampaignController::class);
 Route::apiResource('hunters', HunterController::class);

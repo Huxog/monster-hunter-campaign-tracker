@@ -27,8 +27,8 @@ class Map extends Model
      * Campaigns on this maps
      *
      **/
-    public function campaings(): HasMany
+    public function campaigns(): HasMany
     {
-        return self::hasMany(Campaign::class, 'mapId', 'id');
+        return $this->hasMany(Campaign::class, 'mapId', 'id');
     }
 }

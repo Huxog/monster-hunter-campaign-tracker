@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CampaignStore;
 use App\Http\Requests\CampaignUpdate;
+use App\Http\Resources\CampaignCollection;
+use App\Http\Resources\CampaignResource;
+use App\Interfaces\ICampaignService;
 use App\Models\Campaign;
-use App\Services\CampaignService;
-use App\Traits\FormatExceptionResponse;
-use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -18,7 +17,9 @@ use Illuminate\Http\JsonResponse;
  */
 class CampaignController extends Controller
 {
-    use FormatExceptionResponse;
+    public function __construct(
+        private ICampaignService $campaignService
+    ) {}
 
     /**
      * Display a listing of campaigns.
@@ -28,13 +29,9 @@ class CampaignController extends Controller
      * @queryParam sort string Field to sort by. Defaults to 'id'
      * @queryParam direction string Direction of the sorting 'asc'/'desc'
      */
-    public function index(): JsonResponse
+    public function index(): CampaignCollection
     {
-        try {
-            return response()->json(CampaignService::getAll())->setStatusCode(JsonResponse::HTTP_OK);
-        } catch (Exception $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        return new CampaignCollection($this->campaignService->getAll());
     }
 
     /**
@@ -42,13 +39,13 @@ class CampaignController extends Controller
      *
      * @authenticated
      */
-    public function store(CampaignStore $request)
+    public function store(CampaignStore $request): JsonResponse
     {
-        try {
-            return response()->json(CampaignService::create($request->validated()))->setStatusCode(JsonResponse::HTTP_CREATED);
-        } catch (Exception $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        $campaign = $this->campaignService->create($request->validated());
+
+        return (new CampaignResource($campaign))
+            ->response()
+            ->setStatusCode(JsonResponse::HTTP_CREATED);
     }
 
     /**
@@ -56,15 +53,9 @@ class CampaignController extends Controller
      *
      * @authenticated
      */
-    public function show(Campaign $campaign)
+    public function show(Campaign $campaign): CampaignResource
     {
-        try {
-            return response()->json(CampaignService::getById($campaign->id))->setStatusCode(JsonResponse::HTTP_OK);
-        } catch (ModelNotFoundException $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_NOT_FOUND);
-        } catch (Exception $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        return new CampaignResource($this->campaignService->getById($campaign->id));
     }
 
     /**
@@ -72,15 +63,9 @@ class CampaignController extends Controller
      *
      * @authenticated
      */
-    public function update(CampaignUpdate $request, Campaign $campaign)
+    public function update(CampaignUpdate $request, Campaign $campaign): CampaignResource
     {
-        try {
-            return response()->json(CampaignService::update($request->validated(), $campaign->id))->setStatusCode(JsonResponse::HTTP_OK);
-        } catch (ModelNotFoundException $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_NOT_FOUND);
-        } catch (Exception $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        return new CampaignResource($this->campaignService->update($request->validated(), $campaign->id));
     }
 
     /**
@@ -88,14 +73,8 @@ class CampaignController extends Controller
      *
      * @authenticated
      */
-    public function destroy(Campaign $campaign)
+    public function destroy(Campaign $campaign): CampaignResource
     {
-        try {
-            return response()->json(CampaignService::delete($campaign->id))->setStatusCode(JsonResponse::HTTP_OK);
-        } catch (ModelNotFoundException $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_NOT_FOUND);
-        } catch (Exception $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        return new CampaignResource($this->campaignService->delete($campaign->id));
     }
 }

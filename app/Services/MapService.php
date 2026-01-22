@@ -2,67 +2,21 @@
 
 namespace App\Services;
 
-use App\Models\Map;
-use App\Traits\ApiResponse;
+use App\Interfaces\IMapRepository;
+use App\Interfaces\IMapService;
 
-class MapService
+/**
+ * Map service implementation.
+ *
+ * Inherits CRUD operations from base class.
+ * Add Map-specific business logic here if needed.
+ */
+class MapService extends CrudService implements IMapService
 {
-    use ApiResponse;
-
-    /**
-     * Function description
-     *
-     * @param  array  $data
-     */
-    public static function getAll(): array
+    public function __construct(IMapRepository $repository)
     {
-        return self::arrayResponse(Map::all());
+        parent::__construct($repository);
     }
 
-    /**
-     * Function description
-     */
-    public static function getById(int $id): array
-    {
-        return self::arrayResponse(Map::findOrFail($id));
-    }
-
-    /**
-     * Function description
-     *
-     * @param  array  $data
-     */
-    public static function create($data): array
-    {
-        $newMap = Map::create($data);
-
-        return self::arrayResponse($newMap);
-    }
-
-    /**
-     * Function description
-     *
-     * @param  array  $data
-     * @param  int  $id
-     */
-    public static function update($data, $id): array
-    {
-        $updatedMap = Map::findOrFail($id);
-        $updatedMap->update($data);
-
-        return self::arrayResponse($updatedMap);
-    }
-
-    /**
-     * Function description
-     *
-     * @param  array  $id
-     */
-    public static function delete($id): array
-    {
-        $deletedMap = Map::findOrFail($id);
-        Map::delete($id);
-
-        return self::arrayResponse($deletedMap);
-    }
+    // Add Map-specific business logic here if needed
 }

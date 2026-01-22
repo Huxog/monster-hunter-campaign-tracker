@@ -2,67 +2,23 @@
 
 namespace App\Services;
 
-use App\Models\Campaign;
-use App\Traits\ApiResponse;
+use App\Interfaces\ICampaignRepository;
+use App\Interfaces\ICampaignService;
 
-class CampaignService
+/**
+ * Campaign service implementation.
+ *
+ * Inherits CRUD operations from base class.
+ * Add Campaign-specific business logic here if needed.
+ */
+class CampaignService extends CrudService implements ICampaignService
 {
-    use ApiResponse;
+    protected array $defaultRelations = ['map'];
 
-    /**
-     * Function description
-     */
-    public static function getAll(): array
+    public function __construct(ICampaignRepository $repository)
     {
-        return self::arrayResponse(Campaign::with('map')->get());
+        parent::__construct($repository);
     }
 
-    /**
-     * Function description
-     *
-     * @param  int  $id
-     */
-    public static function getById($id): array
-    {
-        return self::arrayResponse(Campaign::findOrFail($id));
-    }
-
-    /**
-     * Function description
-     *
-     * @param  array  $data
-     */
-    public static function create($data): array
-    {
-        $newCampaign = Campaign::create($data);
-
-        return self::arrayResponse($newCampaign);
-    }
-
-    /**
-     * Function description
-     *
-     * @param  array  $data
-     * @param  int  $id
-     */
-    public static function update($data, $id): array
-    {
-        $updatedCampaign = Campaign::findOrFail($id);
-        $updatedCampaign = Campaign::update($data);
-
-        return self::arrayResponse($updatedCampaign);
-    }
-
-    /**
-     * Function description
-     *
-     * @param  int  $id
-     */
-    public static function delete($id): array
-    {
-        $deletedCampaign = Campaign::findOrFail($id);
-        Campaign::delete($id);
-
-        return self::arrayResponse($deletedCampaign);
-    }
+    // Add Campaign-specific business logic here if needed
 }

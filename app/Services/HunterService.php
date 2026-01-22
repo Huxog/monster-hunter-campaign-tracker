@@ -2,67 +2,23 @@
 
 namespace App\Services;
 
-use App\Models\Hunter;
-use App\Traits\ApiResponse;
+use App\Interfaces\IHunterService;
+use App\Interfaces\IHunterRepository;
 
-class HunterService
+/**
+ * Hunter service implementation.
+ *
+ * Inherits CRUD operations from base class.
+ * Add Hunter-specific business logic here if needed.
+ */
+class HunterService extends CrudService implements IHunterService
 {
-    use ApiResponse;
+    protected array $defaultRelations = ['campaign'];
 
-    /**
-     * Function description
-     */
-    public static function getAll(): array
+    public function __construct(IHunterRepository $repository)
     {
-        return self::arrayResponse(Hunter::with('campaign')->get());
+        parent::__construct($repository);
     }
 
-    /**
-     * Function description
-     *
-     * @param  int  $id
-     */
-    public static function getById($id): array
-    {
-        return self::arrayResponse(Hunter::with('campaign')->findOrFail($id));
-    }
-
-    /**
-     * Function description
-     *
-     * @param  array  $data
-     */
-    public static function create($data): array
-    {
-        $newHunter = Hunter::create($data);
-
-        return self::arrayResponse($newHunter);
-    }
-
-    /**
-     * Function description
-     *
-     * @param  array  $data
-     * @param  array  $id
-     */
-    public static function update($data, $id): array
-    {
-        $updatedHunter = Hunter::findOrFail($id);
-        $updatedHunter = Hunter::update($data);
-
-        return self::arrayResponse($updatedHunter);
-    }
-
-    /**
-     * Function description
-     *
-     * @param  array  $id
-     */
-    public static function delete($id): array
-    {
-        $deletedHunter = Hunter::findOrFail($id);
-        Hunter::delete($id);
-
-        return self::arrayResponse($deletedHunter);
-    }
+    // Add Hunter-specific business logic here if needed
 }

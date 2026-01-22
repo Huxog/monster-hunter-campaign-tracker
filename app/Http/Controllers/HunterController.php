@@ -4,80 +4,74 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\HunterStore;
 use App\Http\Requests\HunterUpdate;
+use App\Http\Resources\HunterCollection;
+use App\Http\Resources\HunterResource;
+use App\Interfaces\IHunterService;
 use App\Models\Hunter;
-use App\Services\HunterService;
-use App\Traits\FormatExceptionResponse;
-use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * @group Hunters
+ *
+ * Endpoints for managing hunters
+ */
 class HunterController extends Controller
 {
-    use FormatExceptionResponse;
+    public function __construct(
+        private IHunterService $hunterService
+    ) {}
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of hunters.
+     *
+     * @authenticated
      */
-    public function index(): JsonResponse
+    public function index(): HunterCollection
     {
-        try {
-            return response()->json(HunterService::getAll())->setStatusCode(JsonResponse::HTTP_OK);
-        } catch (Exception $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        return new HunterCollection($this->hunterService->getAll());
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created hunter in storage.
+     *
+     * @authenticated
      */
     public function store(HunterStore $request): JsonResponse
     {
-        try {
-            return response()->json(HunterService::create($request->validated()))->setStatusCode(JsonResponse::HTTP_CREATED);
-        } catch (Exception $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        $hunter = $this->hunterService->create($request->validated());
+
+        return (new HunterResource($hunter))
+            ->response()
+            ->setStatusCode(JsonResponse::HTTP_CREATED);
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified hunter.
+     *
+     * @authenticated
      */
-    public function show(Hunter $hunter): JsonResponse
+    public function show(Hunter $hunter): HunterResource
     {
-        try {
-            return response()->json(HunterService::getById($hunter->id))->setStatusCode(JsonResponse::HTTP_OK);
-        } catch (ModelNotFoundException $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_NOT_FOUND);
-        } catch (Exception $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        return new HunterResource($this->hunterService->getById($hunter->id));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified hunter in storage.
+     *
+     * @authenticated
      */
-    public function update(HunterUpdate $request, Hunter $hunter): JsonResponse
+    public function update(HunterUpdate $request, Hunter $hunter): HunterResource
     {
-        try {
-            return response()->json(HunterService::update($request->validated(), $hunter->id))->setStatusCode(JsonResponse::HTTP_OK);
-        } catch (ModelNotFoundException $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_NOT_FOUND);
-        } catch (Exception $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        return new HunterResource($this->hunterService->update($request->validated(), $hunter->id));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified hunter from storage.
+     *
+     * @authenticated
      */
-    public function destroy(Hunter $hunter): JsonResponse
+    public function destroy(Hunter $hunter): HunterResource
     {
-        try {
-            return response()->json(HunterService::delete($hunter->id))->setStatusCode(JsonResponse::HTTP_OK);
-        } catch (ModelNotFoundException $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_NOT_FOUND);
-        } catch (Exception $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        return new HunterResource($this->hunterService->delete($hunter->id));
     }
 }

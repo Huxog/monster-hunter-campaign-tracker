@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MapStore;
 use App\Http\Requests\MapUpdate;
+use App\Http\Resources\MapCollection;
+use App\Http\Resources\MapResource;
+use App\Interfaces\IMapService;
 use App\Models\Map;
-use App\Services\MapService;
 use App\Traits\FormatExceptionResponse;
-use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -20,6 +20,10 @@ class MapController extends Controller
 {
     use FormatExceptionResponse;
 
+    public function __construct(
+        private IMapService $mapService
+    ) {}
+
     /**
      * Display a listing of maps.
      *
@@ -28,13 +32,9 @@ class MapController extends Controller
      * @queryParam sort string Field to sort by. Defaults to 'id'
      * @queryParam direction string Direction of the sorting 'asc'/'desc'
      */
-    public function index(): JsonResponse
+    public function index(): MapCollection
     {
-        try {
-            return response()->json(MapService::getAll())->setStatusCode(JsonResponse::HTTP_OK);
-        } catch (Exception $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        return new MapCollection($this->mapService->getAll());
     }
 
     /**
@@ -44,11 +44,11 @@ class MapController extends Controller
      */
     public function store(MapStore $request): JsonResponse
     {
-        try {
-            return response()->json(MapService::create($request->validated()))->setStatusCode(JsonResponse::HTTP_CREATED);
-        } catch (Exception $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        $map = $this->mapService->create($request->validated());
+
+        return (new MapResource($map))
+            ->response()
+            ->setStatusCode(JsonResponse::HTTP_CREATED);
     }
 
     /**
@@ -56,15 +56,9 @@ class MapController extends Controller
      *
      * @authenticated
      */
-    public function show(Map $map): JsonResponse
+    public function show(Map $map): MapResource
     {
-        try {
-            return response()->json(MapService::getById($map->id))->setStatusCode(JsonResponse::HTTP_OK);
-        } catch (ModelNotFoundException $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_NOT_FOUND);
-        } catch (Exception $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        return new MapResource($this->mapService->getById($map->id));
     }
 
     /**
@@ -72,15 +66,9 @@ class MapController extends Controller
      *
      * @authenticated
      */
-    public function update(MapUpdate $request, Map $map): JsonResponse
+    public function update(MapUpdate $request, Map $map): MapResource
     {
-        try {
-            return response()->json(MapService::update($request->validated(), $map->id))->setStatusCode(JsonResponse::HTTP_OK);
-        } catch (ModelNotFoundException $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_NOT_FOUND);
-        } catch (Exception $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        return new MapResource($this->mapService->update($request->validated(), $map->id));
     }
 
     /**
@@ -88,14 +76,8 @@ class MapController extends Controller
      *
      * @authenticated
      */
-    public function destroy(Map $map): JsonResponse
+    public function destroy(Map $map): MapResource
     {
-        try {
-            return response()->json(MapService::delete($map->id))->setStatusCode(JsonResponse::HTTP_OK);
-        } catch (ModelNotFoundException $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_NOT_FOUND);
-        } catch (Exception $ex) {
-            return response()->json(self::formatMessage($ex->getMessage(), $ex->code ?? null))->setStatusCode(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        return new MapResource($this->mapService->delete($map->id));
     }
 }
