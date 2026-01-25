@@ -15,17 +15,20 @@ class CampaignStoreTest extends TestCase
      */
     public function test_the_campaign_store_creates_a_campaign(): void
     {
-        Map::factory()->create();
-        $this->postJson('api/campaings', [
+        $map = Map::factory()->create();
+
+        $response = $this->postJson('api/campaigns', [
             'name' => 'Test Campaign Name',
             'teamName' => 'Test team name',
-            'mapId' => 1,
+            'mapId' => $map->id,
         ]);
+
+        $response->assertStatus(201);
 
         $this->assertDatabaseHas('campaigns', [
             'name' => 'Test Campaign Name',
             'teamName' => 'Test team name',
-            'mapId' => 1,
+            'mapId' => $map->id,
         ]);
     }
 }

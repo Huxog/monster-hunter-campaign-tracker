@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Enums\EquipmentType;
 use App\Models\Campaign;
+use App\Models\Equipment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,5 +24,43 @@ class HunterFactory extends Factory
             'hunterName' => fake()->word(),
             'campaignId' => Campaign::factory(),
         ];
+    }
+
+    /**
+     * Equip a helmet.
+     */
+    public function withHelmet(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'helmet' => Equipment::factory()->state(['type' => EquipmentType::Helmet]),
+        ]);
+    }
+
+    /**
+     * Equip a vest.
+     */
+    public function withVest(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'vest' => Equipment::factory()->state(['type' => EquipmentType::Vest]),
+        ]);
+    }
+
+    /**
+     * Equip trousers.
+     */
+    public function withTrousers(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'trousers' => Equipment::factory()->state(['type' => EquipmentType::Trouser]),
+        ]);
+    }
+
+    /**
+     * Fully equipped with all armor pieces.
+     */
+    public function fullyEquipped(): static
+    {
+        return $this->withHelmet()->withVest()->withTrousers();
     }
 }

@@ -11,9 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('maps', function (Blueprint $table) {
+        Schema::create('equipment', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
+            $table->text('effect')->nullable();
+            $table->string('type');
+            $table->integer('armor')->nullable();
+            $table->json('elementalResistances')->nullable();
+            $table->string('class')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -24,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('maps');
+        Schema::dropIfExists('equipment');
     }
 };

@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Interfaces\CrudRepositoryInterface;
 use App\Interfaces\ICrudRepository;
 use App\Interfaces\ICrudService;
 use Illuminate\Database\Eloquent\Collection;
@@ -15,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * custom methods while inheriting standard CRUD functionality.
  *
  * @template T of Model
+ *
  * @implements ICrudService<T>
  */
 abstract class CrudService implements ICrudService
@@ -37,7 +37,7 @@ abstract class CrudService implements ICrudService
         return $this->repository->all($this->defaultRelations);
     }
 
-    public function getById(int $id): Model
+    public function getById(string $id): Model
     {
         return $this->repository->findOrFail($id, $this->defaultRelations);
     }
@@ -47,14 +47,14 @@ abstract class CrudService implements ICrudService
         return $this->repository->create($data);
     }
 
-    public function update(array $data, int $id): Model
+    public function update(array $data, string $id): Model
     {
         $model = $this->repository->findOrFail($id);
 
         return $this->repository->update($model, $data);
     }
 
-    public function delete(int $id): Model
+    public function delete(string $id): Model
     {
         $model = $this->repository->findOrFail($id);
         $this->repository->delete($model);

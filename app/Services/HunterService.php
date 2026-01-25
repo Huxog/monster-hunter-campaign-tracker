@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Interfaces\IHunterService;
 use App\Interfaces\IHunterRepository;
+use App\Interfaces\IHunterService;
 
 /**
  * Hunter service implementation.
@@ -13,7 +13,7 @@ use App\Interfaces\IHunterRepository;
  */
 class HunterService extends CrudService implements IHunterService
 {
-    protected array $defaultRelations = ['campaign'];
+    protected array $defaultRelations = ['campaign', 'helmet', 'vest', 'trousers'];
 
     public function __construct(IHunterRepository $repository)
     {

@@ -15,4 +15,3 @@ interface ICampaignService extends ICrudService
 {
     // Add Campaign-specific methods here if needed
 }
-

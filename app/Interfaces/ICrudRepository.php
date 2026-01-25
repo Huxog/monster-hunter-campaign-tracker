@@ -29,7 +29,7 @@ interface ICrudRepository
      * @param  array<string>  $relations
      * @return T|null
      */
-    public function find(int $id, array $relations = []): ?Model;
+    public function find(string $id, array $relations = []): ?Model;
 
     /**
      * Find a record by ID or throw exception.
@@ -37,7 +37,7 @@ interface ICrudRepository
      * @param  array<string>  $relations
      * @return T
      */
-    public function findOrFail(int $id, array $relations = []): Model;
+    public function findOrFail(string $id, array $relations = []): Model;
 
     /**
      * Create a new record.

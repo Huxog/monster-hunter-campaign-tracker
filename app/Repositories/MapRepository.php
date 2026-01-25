@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Interfaces\IMapRepository;
-use App\Interfaces\Repositories\MapRepositoryInterface;
 use App\Models\Map;
 
 /**

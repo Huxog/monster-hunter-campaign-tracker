@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Interfaces\ICrudRepository;
-use App\Interfaces\CrudRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * custom methods while inheriting standard CRUD functionality.
  *
  * @template T of Model
+ *
  * @implements ICrudRepository<T>
  */
 abstract class CrudRepository implements ICrudRepository
@@ -27,12 +27,12 @@ abstract class CrudRepository implements ICrudRepository
         return $this->model->with($relations)->get();
     }
 
-    public function find(int $id, array $relations = []): ?Model
+    public function find(string $id, array $relations = []): ?Model
     {
         return $this->model->with($relations)->find($id);
     }
 
-    public function findOrFail(int $id, array $relations = []): Model
+    public function findOrFail(string $id, array $relations = []): Model
     {
         return $this->model->with($relations)->findOrFail($id);
     }

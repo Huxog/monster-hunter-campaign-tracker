@@ -25,9 +25,12 @@ class HunterUpdate extends FormRequest
     public function rules(): array
     {
         return [
-            'playerName' => 'required|string|max:255',
-            'hunterName' => 'required|string|max:255',
-            'campaignId' => 'required|numeric|exists:campaigns,id,deleted_at,NULL',
+            'playerName' => 'sometimes|string|max:255',
+            'hunterName' => 'sometimes|string|max:255',
+            'campaignId' => 'sometimes|uuid|exists:campaigns,id,deleted_at,NULL',
+            'helmetId' => 'nullable|uuid|exists:equipment,id,deleted_at,NULL,type,helmet',
+            'vestId' => 'nullable|uuid|exists:equipment,id,deleted_at,NULL,type,vest',
+            'trousersId' => 'nullable|uuid|exists:equipment,id,deleted_at,NULL,type,trouser',
         ];
     }
 
@@ -54,29 +57,36 @@ class HunterUpdate extends FormRequest
     public function messages(): array
     {
         return [
-            'playerName.required' => 'You must specify a name for the hunter',
             'playerName.string' => 'The player name must be a string',
             'playerName.max' => 'The player name must not exceed 255 characters',
-            'hunterName.required' => 'You must specify a name for the hunter',
             'hunterName.string' => 'The hunter name must be a string',
             'hunterName.max' => 'The hunter name must not exceed 255 characters',
-            'campaignId.required' => 'You must specify a campaign for the hunter',
-            'campaignId.numeric' => 'The campaign ID must be a number',
+            'campaignId.uuid' => 'The campaign ID must be a valid UUID',
+            'campaignId.exists' => 'The specified campaign does not exist',
+            'helmetId.uuid' => 'The helmet ID must be a valid UUID',
+            'helmetId.exists' => 'The specified helmet does not exist or is not a helmet',
+            'vestId.uuid' => 'The vest ID must be a valid UUID',
+            'vestId.exists' => 'The specified vest does not exist or is not a vest',
+            'trousersId.uuid' => 'The trousers ID must be a valid UUID',
+            'trousersId.exists' => 'The specified trousers do not exist or are not trousers',
         ];
     }
 
     public function codes(): array
     {
         return [
-            'playerName.required' => 'HUN-0204-0001',
-            'playerName.string' => 'HUN-0204-0002',
-            'playerName.max' => 'HUN-0204-0003',
-            'hunterName.required' => 'HUN-0204-0004',
-            'hunterName.string' => 'HUN-0204-0005',
-            'hunterName.max' => 'HUN-0204-0006',
-            'campaignId.required' => 'HUN-0204-0007',
-            'campaignId.numeric' => 'HUN-0204-0008',
-            'campaignId.exists' => 'HUN-0204-0009',
+            'playerName.string' => 'HUN-0204-0001',
+            'playerName.max' => 'HUN-0204-0002',
+            'hunterName.string' => 'HUN-0204-0003',
+            'hunterName.max' => 'HUN-0204-0004',
+            'campaignId.uuid' => 'HUN-0204-0005',
+            'campaignId.exists' => 'HUN-0204-0006',
+            'helmetId.uuid' => 'HUN-0204-0007',
+            'helmetId.exists' => 'HUN-0204-0008',
+            'vestId.uuid' => 'HUN-0204-0009',
+            'vestId.exists' => 'HUN-0204-0010',
+            'trousersId.uuid' => 'HUN-0204-0011',
+            'trousersId.exists' => 'HUN-0204-0012',
         ];
     }
 }

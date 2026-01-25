@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('campaigns', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name')->nullable(false);
-            $table->foreignId('mapId')->references('id')->on('maps');
+            $table->foreignUuid('mapId')->references('id')->on('maps');
             $table->string('teamName')->nullable(false);
             $table->timestamps();
             $table->softDeletes();

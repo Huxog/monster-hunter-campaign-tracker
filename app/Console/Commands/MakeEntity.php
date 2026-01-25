@@ -68,7 +68,7 @@ class MakeEntity extends Command
         if ($all || $this->option('repository') || $this->option('service') || $this->option('interfaces')) {
             $this->newLine();
             $this->warn('Remember to register bindings in AppServiceProvider:');
-            $this->line("  \$this->app->bind(I{$name}Repository::class, Eloquent{$name}Repository::class);");
+            $this->line("  \$this->app->bind(I{$name}Repository::class, {$name}Repository::class);");
             $this->line("  \$this->app->bind(I{$name}Service::class, {$name}Service::class);");
         }
 
@@ -127,6 +127,7 @@ use App\Http\Resources\\{$name}Resource;
 use App\Interfaces\I{$name}Service;
 use App\Models\\{$name};
 use Illuminate\Http\JsonResponse;
+
 
 /**
  * @group {$pluralName}
@@ -248,17 +249,6 @@ class {$name}Resource extends JsonResource
         ];
     }
 
-    /**
-     * Customize the response structure.
-     *
-     * @return array<string, mixed>
-     */
-    public function with(Request \$request): array
-    {
-        return [
-            'metadata' => [],
-        ];
-    }
 }
 PHP;
 
@@ -358,7 +348,7 @@ use App\Models\\{$name};
  * Inherits CRUD operations from base class.
  * Add {$name}-specific methods here if needed.
  */
-class Eloquent{$name}Repository extends EloquentCrudRepository implements I{$name}Repository
+class {$name}Repository extends CrudRepository implements I{$name}Repository
 {
     public function __construct({$name} \$model)
     {
@@ -370,8 +360,8 @@ class Eloquent{$name}Repository extends EloquentCrudRepository implements I{$nam
 PHP;
 
         $this->ensureDirectoryExists(app_path('Repositories'));
-        $path = app_path("Repositories/Eloquent{$name}Repository.php");
-        $this->writeFile($path, $stub, "Eloquent{$name}Repository");
+        $path = app_path("Repositories/{$name}Repository.php");
+        $this->writeFile($path, $stub, "{$name}Repository");
     }
 
     /**
@@ -447,7 +437,7 @@ PHP;
      */
     protected function ensureDirectoryExists(string $path): void
     {
-        if (!File::isDirectory($path)) {
+        if (! File::isDirectory($path)) {
             File::makeDirectory($path, 0755, true);
         }
     }
@@ -459,6 +449,7 @@ PHP;
     {
         if (File::exists($path)) {
             $this->warn("  {$name} already exists, skipping.");
+
             return;
         }
 

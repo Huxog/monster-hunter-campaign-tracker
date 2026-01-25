@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('hunters', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('playerName')->nullable(false);
             $table->string('hunterName')->nullable(false);
-            $table->foreignId('campaignId')->references('id')->on('campaigns');
+            $table->foreignUuid('campaignId')->references('id')->on('campaigns');
             $table->timestamps();
             $table->softDeletes();
         });

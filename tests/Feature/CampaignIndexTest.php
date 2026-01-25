@@ -17,6 +17,6 @@ class CampaignIndexTest extends TestCase
     {
         Campaign::factory()->count(70)->create();
         $campaignCount = Campaign::all();
-        $this->getJson('api/campaings')->assertJsonCount($campaignCount->count(), 'data');
+        $this->getJson('api/campaigns')->assertJsonCount($campaignCount->count(), 'data');
     }
 }

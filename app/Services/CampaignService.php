@@ -13,7 +13,7 @@ use App\Interfaces\ICampaignService;
  */
 class CampaignService extends CrudService implements ICampaignService
 {
-    protected array $defaultRelations = ['map'];
+    protected array $defaultRelations = ['map', 'hunters'];
 
     public function __construct(ICampaignRepository $repository)
     {

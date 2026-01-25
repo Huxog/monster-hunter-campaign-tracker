@@ -27,7 +27,7 @@ interface ICrudService
      *
      * @return T
      */
-    public function getById(int $id): Model;
+    public function getById(string $id): Model;
 
     /**
      * Create a new record.
@@ -43,12 +43,12 @@ interface ICrudService
      * @param  array<string, mixed>  $data
      * @return T
      */
-    public function update(array $data, int $id): Model;
+    public function update(array $data, string $id): Model;
 
     /**
      * Delete a record.
      *
      * @return T
      */
-    public function delete(int $id): Model;
+    public function delete(string $id): Model;
 }

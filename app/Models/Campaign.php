@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Campaign extends Model
 {
     /** @use HasFactory<\Database\Factories\CampaignFactory> */
-    use HasFactory, SoftDeletes;
+    use HasFactory, HasUuids, SoftDeletes;
 
     /** @var string table used to store the model */
     protected $table = 'campaigns';
@@ -29,6 +30,7 @@ class Campaign extends Model
     /**
      * Map related to this campaign
      *
+     * @return BelongsTo<Map>
      **/
     public function map(): BelongsTo
     {
@@ -37,9 +39,11 @@ class Campaign extends Model
 
     /**
      * Get all of the hunters for the Campaign
+     *
+     * @return HasMany<Hunter>
      */
     public function hunters(): HasMany
     {
-        return $this->hasMany(Hunter::class, 'campaignId', 'id');
+        return self::hasMany(Hunter::class, 'campaignId', 'id');
     }
 }

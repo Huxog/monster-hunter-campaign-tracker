@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Interfaces\IHunterRepository;
-use App\Interfaces\IHunterService;
 use App\Models\Hunter;
 
 /**

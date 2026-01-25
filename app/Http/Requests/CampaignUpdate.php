@@ -27,7 +27,7 @@ class CampaignUpdate extends FormRequest
         return [
             'name' => 'required|string',
             'teamName' => 'required|string',
-            'mapId' => 'sometimes|numeric|exists:maps,id,deleted_at,NULL',
+            'mapId' => 'sometimes|uuid|exists:maps,id,deleted_at,NULL',
         ];
     }
 
@@ -60,7 +60,7 @@ class CampaignUpdate extends FormRequest
             'name.string' => 'The name must be a string',
             'teamName.required' => 'Please name your team for this campaign',
             'teamName.string' => 'The team name must be a string',
-            'mapId.numeric' => 'Must be a valid map identifier',
+            'mapId.uuid' => 'Must be a valid map identifier',
             'mapId.exists' => 'No valid map found',
         ];
     }
@@ -72,7 +72,7 @@ class CampaignUpdate extends FormRequest
             'name.string' => 'CAM-0204-0002',
             'teamName.required' => 'CAM-0204-0003',
             'teamName.string' => 'CAM-0204-0004',
-            'mapId.numeric' => 'CAM-0204-0005',
+            'mapId.uuid' => 'CAM-0204-0005',
             'mapId.exists' => 'CAM-0204-0006',
         ];
     }
