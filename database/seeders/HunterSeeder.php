@@ -14,7 +14,7 @@ class HunterSeeder extends Seeder
     public function run(): void
     {
         Campaign::all()->each(function ($campaign) {
-            Hunter::factory(rand(1, 4))->create([
+            Hunter::factory(rand(1, 4))->fullyEquipped()->create([
                 'campaignId' => $campaign->id,
             ]);
         });

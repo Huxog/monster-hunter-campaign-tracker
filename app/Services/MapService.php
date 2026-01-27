@@ -13,6 +13,9 @@ use App\Interfaces\IMapService;
  */
 class MapService extends CrudService implements IMapService
 {
+    // Define default relations to eager load (optional)
+    protected array $defaultRelations = [];
+
     public function __construct(IMapRepository $repository)
     {
         parent::__construct($repository);

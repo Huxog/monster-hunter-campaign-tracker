@@ -27,9 +27,11 @@ class Hunter extends Model
         'helmetId',
         'vestId',
         'trousersId',
+        'weaponId',
+        'class',
     ];
 
-/**
+    /**
      * Campaing related to this hunter
      *
      * @return BelongsTo<Campaign>
@@ -50,22 +52,31 @@ class Hunter extends Model
     }
 
     /**
-    * Currently equipped vest
-    *
-    * @return BelongsTo<Equipment>
-    **/
+     * Currently equipped vest
+     *
+     * @return BelongsTo<Equipment>
+     **/
     public function vest(): BelongsTo
     {
         return self::belongsTo(Equipment::class, 'vestId', 'id');
     }
 
     /**
-    * Currently equipped trousers
-    *
-    * @return BelongsTo<Equipment>
-    **/
+     * Currently equipped trousers
+     *
+     * @return BelongsTo<Equipment>
+     **/
     public function trousers(): BelongsTo
     {
         return self::belongsTo(Equipment::class, 'trousersId', 'id');
+    }
+
+    /** Currently equipped weapon
+     *
+     * @return BelongsTo<Weapon>
+     **/
+    public function weapon(): BelongsTo
+    {
+        return $this->belongsTo(Weapon::class, 'weaponId', 'id');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\ElementalType;
 use App\Enums\EquipmentType;
 use App\Enums\WeaponClass;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -24,13 +25,13 @@ class EquipmentFactory extends Factory
             'type' => fake()->randomElement(EquipmentType::cases()),
             'armor' => fake()->numberBetween(0, 5),
             'elementalResistances' => [
-                'fire' => fake()->numberBetween(0, 5),
-                'ice' => fake()->numberBetween(0, 5),
-                'thunder' => fake()->numberBetween(0, 5),
-                'water' => fake()->numberBetween(0, 5),
-                'dragon' => fake()->numberBetween(0, 5),
+                ElementalType::Fire->value => fake()->numberBetween(0, 5),
+                ElementalType::Water->value => fake()->numberBetween(0, 5),
+                ElementalType::Thunder->value => fake()->numberBetween(0, 5),
+                ElementalType::Ice->value => fake()->numberBetween(0, 5),
+                ElementalType::Dragon->value => fake()->numberBetween(0, 5),
             ],
-            'class' => fake()->optional()->randomElement(WeaponClass::cases()),
+            'class' => fake()->randomElement(WeaponClass::cases()),
         ];
     }
 }

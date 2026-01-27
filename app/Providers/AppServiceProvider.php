@@ -10,14 +10,18 @@ use App\Interfaces\IHunterRepository;
 use App\Interfaces\IHunterService;
 use App\Interfaces\IMapRepository;
 use App\Interfaces\IMapService;
+use App\Interfaces\IWeaponRepository;
+use App\Interfaces\IWeaponService;
 use App\Repositories\CampaignRepository;
 use App\Repositories\EquipmentRepository;
 use App\Repositories\HunterRepository;
 use App\Repositories\MapRepository;
+use App\Repositories\WeaponRepository;
 use App\Services\CampaignService;
 use App\Services\EquipmentService;
 use App\Services\HunterService;
 use App\Services\MapService;
+use App\Services\WeaponService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -32,12 +36,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ICampaignRepository::class, CampaignRepository::class);
         $this->app->bind(IHunterRepository::class, HunterRepository::class);
         $this->app->bind(IEquipmentRepository::class, EquipmentRepository::class);
+        $this->app->bind(IWeaponRepository::class, WeaponRepository::class);
 
         // Service bindings
         $this->app->bind(IMapService::class, MapService::class);
         $this->app->bind(ICampaignService::class, CampaignService::class);
         $this->app->bind(IHunterService::class, HunterService::class);
         $this->app->bind(IEquipmentService::class, EquipmentService::class);
+        $this->app->bind(IWeaponService::class, WeaponService::class);
     }
 
     /**

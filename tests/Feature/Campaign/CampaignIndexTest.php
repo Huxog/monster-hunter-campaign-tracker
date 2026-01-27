@@ -20,8 +20,8 @@ class CampaignIndexTest extends TestCase
             ->assertJsonCount(5, 'data')
             ->assertJsonStructure([
                 'data' => [
-                    '*' => ['id', 'name', 'teamName', 'createdAt', 'updatedAt']
-                ]
+                    '*' => ['id', 'name', 'teamName', 'createdAt', 'updatedAt'],
+                ],
             ]);
     }
 

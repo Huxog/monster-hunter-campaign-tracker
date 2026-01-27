@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class EquipmentResource extends JsonResource
+class WeaponResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,11 +17,10 @@ class EquipmentResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'effect' => $this->effect,
-            'type' => $this->type?->value,
-            'armor' => $this->armor,
-            'elementalResistances' => $this->elementalResistances,
-            'class' => $this->class->value,
+            'class' => $this->class,
+            'element' => $this->element,
+            'damage' => $this->damage,
+            'hunter' => new HunterResource($this->whenLoaded('hunter')),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];

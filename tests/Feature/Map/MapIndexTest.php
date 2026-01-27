@@ -20,8 +20,8 @@ class MapIndexTest extends TestCase
             ->assertJsonCount(5, 'data')
             ->assertJsonStructure([
                 'data' => [
-                    '*' => ['id', 'name', 'createdAt', 'updatedAt']
-                ]
+                    '*' => ['id', 'name', 'createdAt', 'updatedAt'],
+                ],
             ]);
     }
 

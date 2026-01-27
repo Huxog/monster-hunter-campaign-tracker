@@ -4,6 +4,7 @@ use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\HunterController;
 use App\Http\Controllers\MapController;
+use App\Http\Controllers\WeaponController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,3 +16,4 @@ Route::apiResource('maps', MapController::class);
 Route::apiResource('campaigns', CampaignController::class);
 Route::apiResource('hunters', HunterController::class);
 Route::apiResource('equipment', EquipmentController::class);
+Route::apiResource('weapons', WeaponController::class);

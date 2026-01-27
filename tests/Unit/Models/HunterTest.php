@@ -9,7 +9,7 @@ class HunterTest extends TestCase
 {
     public function test_fillable_contains_expected_attributes(): void
     {
-        $hunter = new Hunter();
+        $hunter = new Hunter;
         $expected = [
             'playerName',
             'hunterName',
@@ -17,6 +17,8 @@ class HunterTest extends TestCase
             'helmetId',
             'vestId',
             'trousersId',
+            'weaponId',
+            'class',
         ];
 
         $this->assertEquals($expected, $hunter->getFillable());
@@ -24,19 +26,19 @@ class HunterTest extends TestCase
 
     public function test_uses_hunters_table(): void
     {
-        $hunter = new Hunter();
+        $hunter = new Hunter;
         $this->assertEquals('hunters', $hunter->getTable());
     }
 
     public function test_uses_soft_deletes(): void
     {
-        $hunter = new Hunter();
+        $hunter = new Hunter;
         $this->assertTrue(method_exists($hunter, 'trashed'));
     }
 
     public function test_uses_uuids(): void
     {
-        $hunter = new Hunter();
+        $hunter = new Hunter;
         $this->assertFalse($hunter->getIncrementing());
         $this->assertEquals('string', $hunter->getKeyType());
     }

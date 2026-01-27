@@ -2,16 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\Equipment;
+use App\Models\Weapon;
 use Illuminate\Database\Seeder;
 
-class EquipmentSeeder extends Seeder
+class WeaponSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Equipment::factory(120)->create();
+        Weapon::factory(50)->create();
     }
 }

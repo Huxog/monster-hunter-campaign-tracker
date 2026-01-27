@@ -19,6 +19,7 @@ class HunterResource extends JsonResource
             'playerName' => $this->playerName,
             'hunterName' => $this->hunterName,
             'campaignId' => $this->campaignId,
+            'class' => $this->class,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'helmetId' => $this->helmetId,
@@ -28,6 +29,7 @@ class HunterResource extends JsonResource
             'helmet' => new EquipmentResource($this->whenLoaded('helmet')),
             'vest' => new EquipmentResource($this->whenLoaded('vest')),
             'trousers' => new EquipmentResource($this->whenLoaded('trousers')),
+            'weapon' => new WeaponResource($this->whenLoaded('weapon')),
         ];
     }
 }

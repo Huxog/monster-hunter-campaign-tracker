@@ -2,20 +2,21 @@
 
 namespace App\Models;
 
-use App\Enums\EquipmentType;
+use App\Enums\ElementalType;
 use App\Enums\WeaponClass;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Equipment extends Model
+class Weapon extends Model
 {
-    /** @use HasFactory<\Database\Factories\EquipmentFactory> */
+    /** @use HasFactory<\Database\Factories\WeaponFactory> */
     use HasFactory, HasUuids, SoftDeletes;
 
     /** @var string table used to store the model */
-    protected $table = 'equipment';
+    protected $table = 'weapons';
 
     /** @var string The primary key associated with the table */
     protected $primaryKey = 'id';
@@ -23,17 +24,20 @@ class Equipment extends Model
     /** @var array Attributes that are mass assignable */
     protected $fillable = [
         'name',
-        'effect',
-        'type',
-        'armor',
-        'elementalResistances',
         'class',
+        'element',
+        'damage',
     ];
 
     /** @var array Attribute casting */
     protected $casts = [
-        'type' => EquipmentType::class,
         'class' => WeaponClass::class,
-        'elementalResistances' => 'array',
+        'element' => ElementalType::class,
+        'damage' => 'array',
     ];
+
+    public function hunter(): HasOne
+    {
+        return $this->hasOne(Hunter::class, 'weaponId', 'id');
+    }
 }

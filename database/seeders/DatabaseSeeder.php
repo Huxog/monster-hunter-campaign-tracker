@@ -13,9 +13,10 @@ class DatabaseSeeder extends Seeder
     {
         self::call([
             MapSeeder::class,
+            WeaponSeeder::class,
+            EquipmentSeeder::class,
             CampaignSeeder::class,
             HunterSeeder::class,
-            EquipmentSeeder::class,
         ]);
     }
 }

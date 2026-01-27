@@ -13,7 +13,7 @@ use App\Interfaces\IHunterService;
  */
 class HunterService extends CrudService implements IHunterService
 {
-    protected array $defaultRelations = ['campaign', 'helmet', 'vest', 'trousers'];
+    protected array $defaultRelations = ['campaign', 'helmet', 'vest', 'trousers', 'weapon'];
 
     public function __construct(IHunterRepository $repository)
     {

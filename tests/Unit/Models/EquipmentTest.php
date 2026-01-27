@@ -11,7 +11,7 @@ class EquipmentTest extends TestCase
 {
     public function test_fillable_contains_expected_attributes(): void
     {
-        $equipment = new Equipment();
+        $equipment = new Equipment;
         $expected = [
             'name',
             'effect',
@@ -26,7 +26,7 @@ class EquipmentTest extends TestCase
 
     public function test_casts_type_to_equipment_type_enum(): void
     {
-        $equipment = new Equipment();
+        $equipment = new Equipment;
         $casts = $equipment->getCasts();
 
         $this->assertArrayHasKey('type', $casts);
@@ -35,7 +35,7 @@ class EquipmentTest extends TestCase
 
     public function test_casts_class_to_weapon_class_enum(): void
     {
-        $equipment = new Equipment();
+        $equipment = new Equipment;
         $casts = $equipment->getCasts();
 
         $this->assertArrayHasKey('class', $casts);
@@ -44,7 +44,7 @@ class EquipmentTest extends TestCase
 
     public function test_casts_elemental_resistances_to_array(): void
     {
-        $equipment = new Equipment();
+        $equipment = new Equipment;
         $casts = $equipment->getCasts();
 
         $this->assertArrayHasKey('elementalResistances', $casts);
@@ -53,7 +53,7 @@ class EquipmentTest extends TestCase
 
     public function test_uses_equipment_table(): void
     {
-        $equipment = new Equipment();
+        $equipment = new Equipment;
         $this->assertEquals('equipment', $equipment->getTable());
     }
 }
