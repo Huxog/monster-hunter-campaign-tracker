@@ -12,6 +12,7 @@ class CampaignDestroyTest extends TestCase
 
     public function test_soft_deletes_campaign(): void
     {
+        $this->asAdmin();
         $campaign = Campaign::factory()->create();
 
         $response = $this->deleteJson("api/campaigns/{$campaign->id}");
@@ -25,6 +26,7 @@ class CampaignDestroyTest extends TestCase
 
     public function test_deleted_campaign_not_in_index(): void
     {
+        $this->asAdmin();
         $campaign = Campaign::factory()->create();
         $campaign->delete();
 
@@ -36,6 +38,7 @@ class CampaignDestroyTest extends TestCase
 
     public function test_returns_404_for_non_existent_campaign(): void
     {
+        $this->asAdmin();
         $response = $this->deleteJson('api/campaigns/019bf2f1-70b4-70e2-abd2-83879497461b');
 
         $response->assertStatus(404);
@@ -43,6 +46,7 @@ class CampaignDestroyTest extends TestCase
 
     public function test_returns_404_for_already_deleted_campaign(): void
     {
+        $this->asAdmin();
         $campaign = Campaign::factory()->create();
         $campaign->delete();
 

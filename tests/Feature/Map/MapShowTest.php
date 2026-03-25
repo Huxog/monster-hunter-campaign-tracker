@@ -12,6 +12,7 @@ class MapShowTest extends TestCase
 
     public function test_returns_single_map(): void
     {
+        $this->asPlayer();
         $map = Map::factory()->create([
             'name' => 'Ancient Forest',
         ]);
@@ -25,6 +26,7 @@ class MapShowTest extends TestCase
 
     public function test_returns_404_for_non_existent_map(): void
     {
+        $this->asPlayer();
         $response = $this->getJson('api/maps/019bf2f1-70b4-70e2-abd2-83879497461b');
 
         $response->assertStatus(404)
@@ -33,6 +35,7 @@ class MapShowTest extends TestCase
 
     public function test_returns_404_for_soft_deleted_map(): void
     {
+        $this->asPlayer();
         $map = Map::factory()->create();
         $map->delete();
 

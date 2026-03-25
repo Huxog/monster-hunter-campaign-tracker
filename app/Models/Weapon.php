@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Weapon extends Model
@@ -39,5 +40,17 @@ class Weapon extends Model
     public function hunter(): HasOne
     {
         return $this->hasOne(Hunter::class, 'weaponId', 'id');
+    }
+
+    /**
+     * Materials required to craft this weapon
+     *
+     * @return MorphToMany<Material>
+     **/
+    public function materials(): MorphToMany
+    {
+        return $this->morphToMany(Material::class, 'craftable', 'recipes', null, 'materialId')
+            ->withPivot('quantity')
+            ->withTimestamps();
     }
 }

@@ -12,6 +12,7 @@ class CampaignStoreTest extends TestCase
 
     public function test_creates_campaign_with_valid_data(): void
     {
+        $this->asAdmin();
         $map = Map::factory()->create();
 
         $response = $this->postJson('api/campaigns', [
@@ -33,6 +34,7 @@ class CampaignStoreTest extends TestCase
 
     public function test_returns_validation_error_when_name_missing(): void
     {
+        $this->asAdmin();
         $response = $this->postJson('api/campaigns', [
             'teamName' => 'Test Team',
         ]);
@@ -43,6 +45,7 @@ class CampaignStoreTest extends TestCase
 
     public function test_returns_validation_error_when_team_name_missing(): void
     {
+        $this->asAdmin();
         $response = $this->postJson('api/campaigns', [
             'name' => 'Test Campaign',
         ]);
@@ -53,6 +56,7 @@ class CampaignStoreTest extends TestCase
 
     public function test_returns_validation_error_when_map_id_invalid(): void
     {
+        $this->asAdmin();
         $response = $this->postJson('api/campaigns', [
             'name' => 'Test Campaign',
             'teamName' => 'Test Team',
@@ -65,6 +69,7 @@ class CampaignStoreTest extends TestCase
 
     public function test_returns_validation_error_when_map_does_not_exist(): void
     {
+        $this->asAdmin();
         $response = $this->postJson('api/campaigns', [
             'name' => 'Test Campaign',
             'teamName' => 'Test Team',

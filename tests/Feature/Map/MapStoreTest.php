@@ -12,6 +12,7 @@ class MapStoreTest extends TestCase
 
     public function test_creates_map_with_valid_data(): void
     {
+        $this->asAdmin();
         $response = $this->postJson('api/maps', [
             'name' => 'Ancient Forest',
         ]);
@@ -26,6 +27,7 @@ class MapStoreTest extends TestCase
 
     public function test_returns_validation_error_when_name_missing(): void
     {
+        $this->asAdmin();
         $response = $this->postJson('api/maps', []);
 
         $response->assertStatus(406)
@@ -34,6 +36,7 @@ class MapStoreTest extends TestCase
 
     public function test_returns_validation_error_when_name_not_string(): void
     {
+        $this->asAdmin();
         $response = $this->postJson('api/maps', [
             'name' => 12345,
         ]);
@@ -44,6 +47,7 @@ class MapStoreTest extends TestCase
 
     public function test_returns_validation_error_when_name_already_exists(): void
     {
+        $this->asAdmin();
         Map::factory()->create(['name' => 'Ancient Forest']);
 
         $response = $this->postJson('api/maps', [

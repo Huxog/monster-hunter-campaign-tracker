@@ -7,6 +7,7 @@ use App\Enums\WeaponClass;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Equipment extends Model
@@ -36,4 +37,16 @@ class Equipment extends Model
         'class' => WeaponClass::class,
         'elementalResistances' => 'array',
     ];
+
+    /**
+     * Materials required to craft this equipment piece
+     *
+     * @return MorphToMany<Material>
+     **/
+    public function materials(): MorphToMany
+    {
+        return $this->morphToMany(Material::class, 'craftable', 'recipes', null, 'materialId')
+            ->withPivot('quantity')
+            ->withTimestamps();
+    }
 }

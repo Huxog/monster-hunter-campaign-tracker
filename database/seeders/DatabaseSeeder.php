@@ -12,11 +12,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         self::call([
+            RolePermissionSeeder::class,
+            AdminUserSeeder::class,
             MapSeeder::class,
             WeaponSeeder::class,
             EquipmentSeeder::class,
             CampaignSeeder::class,
             HunterSeeder::class,
+            MaterialSeeder::class,
         ]);
     }
 }
