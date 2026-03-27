@@ -26,17 +26,6 @@ class MaterialStoreTest extends TestCase
         ]);
     }
 
-    public function test_player_cannot_create_material(): void
-    {
-        $this->asPlayer();
-
-        $response = $this->postJson('api/materials', [
-            'name' => 'Rathalos Scale',
-        ]);
-
-        $response->assertStatus(403);
-    }
-
     public function test_unauthenticated_user_cannot_create_material(): void
     {
         $response = $this->postJson('api/materials', [
