@@ -34,6 +34,10 @@ This is a **portfolio REST API** built as a companion app for a **Monster Hunter
 
 > All artisan commands must be run inside the container via `docker exec mh-app-service php artisan ...` or through the Makefile.
 
+### Before pushing
+
+Always run `make lint-test` before pushing to ensure the lint pipeline passes. If it reports issues, run `make lint` to auto-fix them, then re-run `make lint-test` to confirm.
+
 ---
 
 ## Architecture
