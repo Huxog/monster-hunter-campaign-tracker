@@ -20,6 +20,16 @@ public function store(EntityStore $request): JsonResponse
 }
 ```
 
+### Auth Controller Exception
+
+`AuthController` is the **only controller exempt from the service/repository layer rule**. It directly uses `User::create()` and `Auth::user()` because auth operations (register, login, logout, me) are framework-level concerns handled by Sanctum — not business logic that belongs in a service. Do not add a `UserService` or `UserRepository` to "fix" this; it would add complexity with no benefit.
+
+The auth flow is:
+- `register` — `RegisterRequest` → `User::create()` → assign `player` role → issue Sanctum token
+- `login` — `LoginRequest` → `Auth::attempt()` → `Auth::user()` → issue Sanctum token
+- `logout` — delete current access token via `auth()->user()->currentAccessToken()->delete()`
+- `me` — return `UserResource` for `auth()->user()`
+
 ## FormRequests
 
 - Always use the `FormatValidationFailure` trait
