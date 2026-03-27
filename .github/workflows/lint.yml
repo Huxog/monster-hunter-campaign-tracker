@@ -23,8 +23,8 @@ jobs:
           extensions: json, dom, curl, libxml, mbstring
           coverage: none
 
-      - name: Install Pint
-        run: composer global require laravel/pint
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
 
       - name: Run Pint
-        run: pint --test
+        run: ./vendor/bin/pint --test
