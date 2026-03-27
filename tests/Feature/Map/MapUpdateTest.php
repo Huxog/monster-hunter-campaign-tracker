@@ -12,6 +12,7 @@ class MapUpdateTest extends TestCase
 
     public function test_updates_map_with_valid_data(): void
     {
+        $this->asAdmin();
         $map = Map::factory()->create([
             'name' => 'Old Name',
         ]);
@@ -31,6 +32,7 @@ class MapUpdateTest extends TestCase
 
     public function test_returns_404_for_non_existent_map(): void
     {
+        $this->asAdmin();
         $response = $this->putJson('api/maps/019bf2f1-70b4-70e2-abd2-83879497461b', [
             'name' => 'Test',
         ]);
@@ -40,6 +42,7 @@ class MapUpdateTest extends TestCase
 
     public function test_returns_validation_error_when_name_missing(): void
     {
+        $this->asAdmin();
         $map = Map::factory()->create();
 
         $response = $this->putJson("api/maps/{$map->id}", []);
@@ -50,6 +53,7 @@ class MapUpdateTest extends TestCase
 
     public function test_returns_validation_error_when_name_already_exists(): void
     {
+        $this->asAdmin();
         Map::factory()->create(['name' => 'Existing Map']);
         $map = Map::factory()->create(['name' => 'My Map']);
 

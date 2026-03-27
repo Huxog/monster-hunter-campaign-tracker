@@ -12,6 +12,7 @@ class MapIndexTest extends TestCase
 
     public function test_returns_all_maps(): void
     {
+        $this->asPlayer();
         Map::factory()->count(5)->create();
 
         $response = $this->getJson('api/maps');
@@ -27,6 +28,7 @@ class MapIndexTest extends TestCase
 
     public function test_returns_empty_array_when_no_maps_exist(): void
     {
+        $this->asPlayer();
         $response = $this->getJson('api/maps');
 
         $response->assertStatus(200)
@@ -35,6 +37,7 @@ class MapIndexTest extends TestCase
 
     public function test_does_not_return_soft_deleted_maps(): void
     {
+        $this->asPlayer();
         Map::factory()->count(3)->create();
         $deletedMap = Map::factory()->create();
         $deletedMap->delete();

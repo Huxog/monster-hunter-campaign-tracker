@@ -12,6 +12,7 @@ class CampaignIndexTest extends TestCase
 
     public function test_returns_all_campaigns(): void
     {
+        $this->asPlayer();
         Campaign::factory()->count(5)->create();
 
         $response = $this->getJson('api/campaigns');
@@ -27,6 +28,7 @@ class CampaignIndexTest extends TestCase
 
     public function test_returns_empty_array_when_no_campaigns_exist(): void
     {
+        $this->asPlayer();
         $response = $this->getJson('api/campaigns');
 
         $response->assertStatus(200)
@@ -35,6 +37,7 @@ class CampaignIndexTest extends TestCase
 
     public function test_includes_map_relationship_when_loaded(): void
     {
+        $this->asPlayer();
         $campaign = Campaign::factory()->create();
 
         $response = $this->getJson('api/campaigns');

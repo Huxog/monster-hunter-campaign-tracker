@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Hunter extends Model
@@ -78,5 +79,17 @@ class Hunter extends Model
     public function weapon(): BelongsTo
     {
         return $this->belongsTo(Weapon::class, 'weaponId', 'id');
+    }
+
+    /**
+     * Materials looted by this hunter
+     *
+     * @return BelongsToMany<Material>
+     **/
+    public function materials(): BelongsToMany
+    {
+        return $this->belongsToMany(Material::class, 'inventory', 'hunterId', 'materialId')
+            ->withPivot('quantity')
+            ->withTimestamps();
     }
 }

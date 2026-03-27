@@ -12,6 +12,7 @@ class CampaignShowTest extends TestCase
 
     public function test_returns_single_campaign(): void
     {
+        $this->asPlayer();
         $campaign = Campaign::factory()->create([
             'name' => 'My Campaign',
             'teamName' => 'My Team',
@@ -27,6 +28,7 @@ class CampaignShowTest extends TestCase
 
     public function test_returns_404_for_non_existent_campaign(): void
     {
+        $this->asPlayer();
         $response = $this->getJson('api/campaigns/019bf2f1-70b4-70e2-abd2-83879497461b');
 
         $response->assertStatus(404)
@@ -35,6 +37,7 @@ class CampaignShowTest extends TestCase
 
     public function test_returns_404_for_soft_deleted_campaign(): void
     {
+        $this->asPlayer();
         $campaign = Campaign::factory()->create();
         $campaign->delete();
 

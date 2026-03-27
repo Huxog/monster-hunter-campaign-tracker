@@ -13,6 +13,7 @@ class CampaignUpdateTest extends TestCase
 
     public function test_updates_campaign_with_valid_data(): void
     {
+        $this->asAdmin();
         $campaign = Campaign::factory()->create([
             'name' => 'Old Name',
             'teamName' => 'Old Team',
@@ -36,6 +37,7 @@ class CampaignUpdateTest extends TestCase
 
     public function test_updates_campaign_map(): void
     {
+        $this->asAdmin();
         $campaign = Campaign::factory()->create();
         $newMap = Map::factory()->create();
 
@@ -51,6 +53,7 @@ class CampaignUpdateTest extends TestCase
 
     public function test_returns_404_for_non_existent_campaign(): void
     {
+        $this->asAdmin();
         $response = $this->putJson('api/campaigns/019bf2f1-70b4-70e2-abd2-83879497461b', [
             'name' => 'Test',
             'teamName' => 'Test',
@@ -61,6 +64,7 @@ class CampaignUpdateTest extends TestCase
 
     public function test_returns_validation_error_when_name_missing(): void
     {
+        $this->asAdmin();
         $campaign = Campaign::factory()->create();
 
         $response = $this->putJson("api/campaigns/{$campaign->id}", [
@@ -73,6 +77,7 @@ class CampaignUpdateTest extends TestCase
 
     public function test_returns_validation_error_for_invalid_map_id(): void
     {
+        $this->asAdmin();
         $campaign = Campaign::factory()->create();
 
         $response = $this->putJson("api/campaigns/{$campaign->id}", [
