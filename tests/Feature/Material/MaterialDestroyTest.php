@@ -36,6 +36,16 @@ class MaterialDestroyTest extends TestCase
             ->assertJsonCount(0, 'data');
     }
 
+    public function test_player_cannot_delete_material(): void
+    {
+        $this->asPlayer();
+        $material = Material::factory()->create();
+
+        $response = $this->deleteJson("api/materials/{$material->id}");
+
+        $response->assertStatus(403);
+    }
+
     public function test_unauthenticated_user_cannot_delete_material(): void
     {
         $material = Material::factory()->create();

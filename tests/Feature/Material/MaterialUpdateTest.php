@@ -28,6 +28,18 @@ class MaterialUpdateTest extends TestCase
         ]);
     }
 
+    public function test_player_cannot_update_material(): void
+    {
+        $this->asPlayer();
+        $material = Material::factory()->create();
+
+        $response = $this->putJson("api/materials/{$material->id}", [
+            'name' => 'Rathalos Ruby',
+        ]);
+
+        $response->assertStatus(403);
+    }
+
     public function test_unauthenticated_user_cannot_update_material(): void
     {
         $material = Material::factory()->create();
