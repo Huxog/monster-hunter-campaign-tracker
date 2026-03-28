@@ -51,6 +51,44 @@ class RegisterTest extends TestCase
         $this->assertTrue($user->hasRole('player'));
     }
 
+    public function test_returns_validation_error_when_name_missing(): void
+    {
+        $response = $this->postJson('api/auth/register', [
+            'email' => 'test@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ]);
+
+        $response->assertStatus(406)
+            ->assertJsonPath('0.code', 'AUT-0202-0001');
+    }
+
+    public function test_returns_validation_error_when_name_not_string(): void
+    {
+        $response = $this->postJson('api/auth/register', [
+            'name' => 12345,
+            'email' => 'test@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ]);
+
+        $response->assertStatus(406)
+            ->assertJsonPath('0.code', 'AUT-0202-0002');
+    }
+
+    public function test_returns_validation_error_when_name_too_long(): void
+    {
+        $response = $this->postJson('api/auth/register', [
+            'name' => str_repeat('a', 256),
+            'email' => 'test@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ]);
+
+        $response->assertStatus(406)
+            ->assertJsonPath('0.code', 'AUT-0202-0003');
+    }
+
     public function test_returns_validation_error_when_email_missing(): void
     {
         $response = $this->postJson('api/auth/register', [
@@ -61,6 +99,19 @@ class RegisterTest extends TestCase
 
         $response->assertStatus(406)
             ->assertJsonPath('0.code', 'AUT-0202-0004');
+    }
+
+    public function test_returns_validation_error_when_email_invalid(): void
+    {
+        $response = $this->postJson('api/auth/register', [
+            'name' => 'Test User',
+            'email' => 'not-an-email',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ]);
+
+        $response->assertStatus(406)
+            ->assertJsonPath('0.code', 'AUT-0202-0005');
     }
 
     public function test_returns_validation_error_for_duplicate_email(): void
