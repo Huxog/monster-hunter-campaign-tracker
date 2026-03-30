@@ -3,6 +3,7 @@
 namespace App\Interfaces;
 
 use App\Models\Hunter;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Hunter-specific service interface.
@@ -13,5 +14,5 @@ use App\Models\Hunter;
  */
 interface IHunterService extends ICrudService
 {
-    // Add Hunter-specific methods here if needed
+    public function craft(Hunter $hunter, string $craftableType, string $craftableId): Model;
 }

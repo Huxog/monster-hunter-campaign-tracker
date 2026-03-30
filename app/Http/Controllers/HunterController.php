@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CraftItem;
 use App\Http\Requests\HunterStore;
 use App\Http\Requests\HunterUpdate;
+use App\Http\Resources\EquipmentResource;
 use App\Http\Resources\HunterCollection;
 use App\Http\Resources\HunterResource;
+use App\Http\Resources\WeaponResource;
 use App\Interfaces\IHunterService;
 use App\Models\Hunter;
 use Illuminate\Http\JsonResponse;
@@ -76,5 +79,30 @@ class HunterController extends Controller
     public function destroy(Hunter $hunter): HunterResource
     {
         return new HunterResource($this->hunterService->delete($hunter->id));
+    }
+
+    /**
+     * Craft a weapon or equipment item for the specified hunter.
+     *
+     * @authenticated
+     *
+     * @bodyParam craftableType string required The type of item to craft (weapon or equipment). Example: weapon
+     * @bodyParam craftableId string required The UUID of the item to craft. Example: 019bf2f1-70b4-70e2-abd2-83879497461b
+     */
+    public function craft(CraftItem $request, Hunter $hunter): JsonResponse
+    {
+        $craftableType = $request->validated('craftableType');
+
+        $craftable = $this->hunterService->craft(
+            $hunter,
+            $craftableType,
+            $request->validated('craftableId'),
+        );
+
+        $resource = $craftableType === 'weapon'
+            ? new WeaponResource($craftable)
+            : new EquipmentResource($craftable);
+
+        return $resource->response()->setStatusCode(JsonResponse::HTTP_OK);
     }
 }

@@ -32,6 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('materials', MaterialController::class)->only(['index', 'show']);
     Route::apiResource('monsters', MonsterController::class)->only(['index', 'show']);
     Route::apiResource('quests', QuestController::class)->only(['index', 'show']);
+    Route::post('hunters/{hunter}/craft', [HunterController::class, 'craft']);
 
     // Write operations - admin only
     Route::middleware('role:admin')->group(function () {
