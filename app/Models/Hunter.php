@@ -116,4 +116,14 @@ class Hunter extends Model
             ->withTimestamps();
     }
 
+    /**
+     * Quests this hunter has participated in
+     *
+     * @return BelongsToMany<Quest>
+     **/
+    public function quests(): BelongsToMany
+    {
+        return $this->belongsToMany(Quest::class, 'quest_hunters', 'hunterId', 'questId')
+            ->withTimestamps();
+    }
 }

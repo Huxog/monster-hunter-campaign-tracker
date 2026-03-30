@@ -14,6 +14,8 @@ use App\Interfaces\IMaterialRepository;
 use App\Interfaces\IMaterialService;
 use App\Interfaces\IMonsterRepository;
 use App\Interfaces\IMonsterService;
+use App\Interfaces\IQuestRepository;
+use App\Interfaces\IQuestService;
 use App\Interfaces\IWeaponRepository;
 use App\Interfaces\IWeaponService;
 use App\Repositories\CampaignRepository;
@@ -22,6 +24,7 @@ use App\Repositories\HunterRepository;
 use App\Repositories\MapRepository;
 use App\Repositories\MaterialRepository;
 use App\Repositories\MonsterRepository;
+use App\Repositories\QuestRepository;
 use App\Repositories\WeaponRepository;
 use App\Services\CampaignService;
 use App\Services\EquipmentService;
@@ -29,6 +32,7 @@ use App\Services\HunterService;
 use App\Services\MapService;
 use App\Services\MaterialService;
 use App\Services\MonsterService;
+use App\Services\QuestService;
 use App\Services\WeaponService;
 use Illuminate\Support\ServiceProvider;
 
@@ -47,6 +51,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IWeaponRepository::class, WeaponRepository::class);
         $this->app->bind(IMaterialRepository::class, MaterialRepository::class);
         $this->app->bind(IMonsterRepository::class, MonsterRepository::class);
+        $this->app->bind(IQuestRepository::class, QuestRepository::class);
 
         // Service bindings
         $this->app->bind(IMapService::class, MapService::class);
@@ -56,6 +61,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IWeaponService::class, WeaponService::class);
         $this->app->bind(IMaterialService::class, MaterialService::class);
         $this->app->bind(IMonsterService::class, MonsterService::class);
+        $this->app->bind(IQuestService::class, QuestService::class);
     }
 
     /**

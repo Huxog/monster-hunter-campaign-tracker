@@ -30,6 +30,7 @@ class HunterResource extends JsonResource
             'vest' => new EquipmentResource($this->whenLoaded('vest')),
             'trousers' => new EquipmentResource($this->whenLoaded('trousers')),
             'weapon' => new WeaponResource($this->whenLoaded('weapon')),
+            'quests' => QuestResource::collection($this->whenLoaded('quests')),
             'loot' => MaterialResource::collection($this->whenLoaded('loot')),
             'inventoryWeapons' => WeaponResource::collection($this->whenLoaded('inventoryWeapons')),
             'inventoryEquipment' => EquipmentResource::collection($this->whenLoaded('inventoryEquipment')),

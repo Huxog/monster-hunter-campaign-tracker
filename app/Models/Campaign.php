@@ -46,4 +46,14 @@ class Campaign extends Model
     {
         return self::hasMany(Hunter::class, 'campaignId', 'id');
     }
+
+    /**
+     * Get all of the quests for the Campaign
+     *
+     * @return HasMany<Quest>
+     */
+    public function quests(): HasMany
+    {
+        return self::hasMany(Quest::class, 'campaignId', 'id');
+    }
 }

@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             HunterSeeder::class,
             MaterialSeeder::class,
             MonsterSeeder::class,
+            QuestSeeder::class,
         ]);
     }
 }
