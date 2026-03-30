@@ -26,6 +26,17 @@ class Material extends Model
     ];
 
     /**
+     * Monsters that drop this material
+     *
+     * @return BelongsToMany<Monster>
+     **/
+    public function monsters(): BelongsToMany
+    {
+        return $this->belongsToMany(Monster::class, 'drops', 'materialId', 'monsterId')
+            ->withTimestamps();
+    }
+
+    /**
      * Hunters that have looted this material
      *
      * @return BelongsToMany<Hunter>

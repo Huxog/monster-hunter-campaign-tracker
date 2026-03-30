@@ -22,6 +22,6 @@ class MaterialService extends CrudService implements IMaterialService
      */
     public function getById(string $id): Model
     {
-        return $this->repository->findOrFail($id, ['hunters', 'weapons', 'equipment']);
+        return $this->repository->findOrFail($id, ['hunters', 'weapons', 'equipment', 'monsters']);
     }
 }

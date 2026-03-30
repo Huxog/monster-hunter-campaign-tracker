@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             CampaignSeeder::class,
             HunterSeeder::class,
             MaterialSeeder::class,
+            MonsterSeeder::class,
         ]);
     }
 }

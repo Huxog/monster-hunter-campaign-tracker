@@ -6,6 +6,7 @@ use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\HunterController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\MonsterController;
 use App\Http\Controllers\WeaponController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('equipment', EquipmentController::class)->only(['index', 'show']);
     Route::apiResource('weapons', WeaponController::class)->only(['index', 'show']);
     Route::apiResource('materials', MaterialController::class)->only(['index', 'show']);
+    Route::apiResource('monsters', MonsterController::class)->only(['index', 'show']);
 
     // Write operations - admin only
     Route::middleware('role:admin')->group(function () {
@@ -37,5 +39,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('equipment', EquipmentController::class)->only(['store', 'update', 'destroy']);
         Route::apiResource('weapons', WeaponController::class)->only(['store', 'update', 'destroy']);
         Route::apiResource('materials', MaterialController::class)->only(['store', 'update', 'destroy']);
+        Route::apiResource('monsters', MonsterController::class)->only(['store', 'update', 'destroy']);
     });
 });

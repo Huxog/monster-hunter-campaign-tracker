@@ -22,6 +22,7 @@ class MaterialResource extends JsonResource
             'hunters' => HunterResource::collection($this->whenLoaded('hunters')),
             'weapons' => WeaponResource::collection($this->whenLoaded('weapons')),
             'equipment' => EquipmentResource::collection($this->whenLoaded('equipment')),
+            'monsters' => MonsterResource::collection($this->whenLoaded('monsters')),
         ];
     }
 }
