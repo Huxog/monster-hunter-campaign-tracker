@@ -25,6 +25,9 @@ class WeaponController extends Controller
      * Display a listing of weapons.
      *
      * @authenticated
+     *
+     * @queryParam sort string Field to sort by. Defaults to 'id'
+     * @queryParam direction string Direction of the sorting 'asc'/'desc'
      */
     public function index(): WeaponCollection
     {

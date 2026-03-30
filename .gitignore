@@ -13,9 +13,12 @@
 /.zed
 /auth.json
 /node_modules
+/.scribe
 /public/build
+/public/docs
 /public/hot
 /public/storage
+/resources/views/scribe
 /storage/*.key
 /storage/pail
 /vendor

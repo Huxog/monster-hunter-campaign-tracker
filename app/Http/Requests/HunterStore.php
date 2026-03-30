@@ -95,4 +95,16 @@ class HunterStore extends FormRequest
             'trousersId.exists' => 'HUN-0202-0015',
         ];
     }
+
+    public function bodyParameters(): array
+    {
+        return [
+            'playerName' => ['description' => 'The real name of the player', 'example' => 'John Doe'],
+            'hunterName' => ['description' => 'The in-game name of the hunter', 'example' => 'Artian'],
+            'campaignId' => ['description' => 'UUID of the campaign this hunter belongs to', 'example' => '019bf2f1-70b4-70e2-abd2-83879497461b'],
+            'helmetId' => ['description' => 'UUID of the equipped helmet (must be type helmet)', 'example' => null],
+            'vestId' => ['description' => 'UUID of the equipped vest (must be type vest)', 'example' => null],
+            'trousersId' => ['description' => 'UUID of the equipped trousers (must be type trouser)', 'example' => null],
+        ];
+    }
 }
