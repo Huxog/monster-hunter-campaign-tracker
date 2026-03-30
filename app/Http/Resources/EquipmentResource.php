@@ -24,6 +24,7 @@ class EquipmentResource extends JsonResource
             'class' => $this->class->value,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
+            'materials' => MaterialResource::collection($this->whenLoaded('materials')),
         ];
     }
 }

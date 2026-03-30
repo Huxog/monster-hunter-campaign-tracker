@@ -13,13 +13,10 @@ use App\Interfaces\IEquipmentService;
  */
 class EquipmentService extends CrudService implements IEquipmentService
 {
-    // Define default relations to eager load (optional)
-    // protected array $defaultRelations = [];
+    protected array $defaultRelations = ['materials'];
 
     public function __construct(IEquipmentRepository $repository)
     {
         parent::__construct($repository);
     }
-
-    // Add Equipment-specific business logic here if needed
 }

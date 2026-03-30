@@ -8,6 +8,7 @@ use App\Http\Resources\EquipmentCollection;
 use App\Http\Resources\EquipmentResource;
 use App\Interfaces\IEquipmentService;
 use App\Models\Equipment;
+use App\Traits\FormatExceptionResponse;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -17,6 +18,8 @@ use Illuminate\Http\JsonResponse;
  */
 class EquipmentController extends Controller
 {
+    use FormatExceptionResponse;
+
     public function __construct(
         private IEquipmentService $equipmentService
     ) {}
