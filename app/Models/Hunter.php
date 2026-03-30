@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Hunter extends Model
@@ -86,10 +87,33 @@ class Hunter extends Model
      *
      * @return BelongsToMany<Material>
      **/
-    public function materials(): BelongsToMany
+    public function loot(): BelongsToMany
     {
-        return $this->belongsToMany(Material::class, 'inventory', 'hunterId', 'materialId')
+        return $this->belongsToMany(Material::class, 'loot', 'hunterId', 'materialId')
             ->withPivot('quantity')
             ->withTimestamps();
     }
+
+    /**
+     * Weapons owned by this hunter
+     *
+     * @return MorphToMany<Weapon>
+     **/
+    public function inventoryWeapons(): MorphToMany
+    {
+        return $this->morphedByMany(Weapon::class, 'inventoryable', 'inventory', 'hunterId')
+            ->withTimestamps();
+    }
+
+    /**
+     * Equipment pieces owned by this hunter
+     *
+     * @return MorphToMany<Equipment>
+     **/
+    public function inventoryEquipment(): MorphToMany
+    {
+        return $this->morphedByMany(Equipment::class, 'inventoryable', 'inventory', 'hunterId')
+            ->withTimestamps();
+    }
+
 }

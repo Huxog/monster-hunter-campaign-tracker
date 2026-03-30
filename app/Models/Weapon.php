@@ -53,4 +53,15 @@ class Weapon extends Model
             ->withPivot('quantity')
             ->withTimestamps();
     }
+
+    /**
+     * Hunters who own this weapon in their inventory
+     *
+     * @return MorphToMany<Hunter>
+     **/
+    public function hunters(): MorphToMany
+    {
+        return $this->morphToMany(Hunter::class, 'inventoryable', 'inventory', null, 'hunterId')
+            ->withTimestamps();
+    }
 }

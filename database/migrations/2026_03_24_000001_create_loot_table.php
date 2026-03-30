@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('inventory', function (Blueprint $table) {
+        Schema::create('loot', function (Blueprint $table) {
             $table->foreignUuid('hunterId')->constrained('hunters')->cascadeOnDelete();
             $table->foreignUuid('materialId')->constrained('materials')->cascadeOnDelete();
             $table->unsignedInteger('quantity')->default(1);
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('inventory');
+        Schema::dropIfExists('loot');
     }
 };

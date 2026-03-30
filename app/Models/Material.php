@@ -32,7 +32,7 @@ class Material extends Model
      **/
     public function hunters(): BelongsToMany
     {
-        return $this->belongsToMany(Hunter::class, 'inventory', 'materialId', 'hunterId')
+        return $this->belongsToMany(Hunter::class, 'loot', 'materialId', 'hunterId')
             ->withPivot('quantity')
             ->withTimestamps();
     }

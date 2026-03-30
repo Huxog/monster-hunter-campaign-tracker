@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Interfaces\IHunterRepository;
 use App\Interfaces\IHunterService;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Hunter service implementation.
@@ -20,5 +21,15 @@ class HunterService extends CrudService implements IHunterService
         parent::__construct($repository);
     }
 
-    // Add Hunter-specific business logic here if needed
+    /**
+     * Load loot and inventory relations on show only.
+     * Avoids loading collection data on index listings.
+     */
+    public function getById(string $id): Model
+    {
+        return $this->repository->findOrFail($id, [
+            'campaign', 'helmet', 'vest', 'trousers', 'weapon',
+            'loot', 'inventoryWeapons', 'inventoryEquipment',
+        ]);
+    }
 }
