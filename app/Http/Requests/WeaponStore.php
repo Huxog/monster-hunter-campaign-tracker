@@ -34,8 +34,8 @@ class WeaponStore extends FormRequest
             'name.string' => 'The name must be a string',
             'name.max' => 'The name must not exceed 255 characters',
             'class.required' => 'You must specify a weapon class',
-            'class.' . Enum::class => 'The class must be a valid weapon class',
-            'element.' . Enum::class => 'The element must be a valid elemental type',
+            'class.'.Enum::class => 'The class must be a valid weapon class',
+            'element.'.Enum::class => 'The element must be a valid elemental type',
             'damage.array' => 'The damage must be an array',
         ];
     }
@@ -47,8 +47,8 @@ class WeaponStore extends FormRequest
             'name.string' => 'WPN-0202-0002',
             'name.max' => 'WPN-0202-0003',
             'class.required' => 'WPN-0202-0004',
-            'class.' . Enum::class => 'WPN-0202-0005',
-            'element.' . Enum::class => 'WPN-0202-0006',
+            'class.'.Enum::class => 'WPN-0202-0005',
+            'element.'.Enum::class => 'WPN-0202-0006',
             'damage.array' => 'WPN-0202-0007',
         ];
     }

@@ -39,8 +39,8 @@ class EquipmentUpdate extends FormRequest
         return [
             'name.string' => 'The name must be a string',
             'name.max' => 'The name must not exceed 255 characters',
-            'type.' . Enum::class => 'The type must be a valid equipment type (helmet, vest, trouser)',
-            'class.' . Enum::class => 'The class must be a valid weapon class',
+            'type.'.Enum::class => 'The type must be a valid equipment type (helmet, vest, trouser)',
+            'class.'.Enum::class => 'The class must be a valid weapon class',
             'armor.integer' => 'The armor value must be an integer',
             'armor.min' => 'The armor value must be at least 0',
             'elementalResistances.array' => 'The elemental resistances must be an array',
@@ -52,8 +52,8 @@ class EquipmentUpdate extends FormRequest
         return [
             'name.string' => 'EQP-0204-0001',
             'name.max' => 'EQP-0204-0002',
-            'type.' . Enum::class => 'EQP-0204-0003',
-            'class.' . Enum::class => 'EQP-0204-0004',
+            'type.'.Enum::class => 'EQP-0204-0003',
+            'class.'.Enum::class => 'EQP-0204-0004',
             'armor.integer' => 'EQP-0204-0005',
             'armor.min' => 'EQP-0204-0006',
             'elementalResistances.array' => 'EQP-0204-0007',

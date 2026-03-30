@@ -5,7 +5,6 @@ namespace Tests\Feature\Quest;
 use App\Models\Campaign;
 use App\Models\Hunter;
 use App\Models\Monster;
-use App\Models\Quest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

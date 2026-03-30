@@ -29,7 +29,7 @@ class QuestUpdate extends FormRequest
                 'uuid',
                 Rule::exists('hunters', 'id')->where('campaignId', $campaignId),
             ],
-            'outcome' => ['sometimes', 'nullable', 'in:' . implode(',', array_column(QuestOutcome::cases(), 'value'))],
+            'outcome' => ['sometimes', 'nullable', 'in:'.implode(',', array_column(QuestOutcome::cases(), 'value'))],
             'completedAt' => 'sometimes|nullable|date',
         ];
     }

@@ -27,7 +27,7 @@ class QuestStore extends FormRequest
                 'uuid',
                 Rule::exists('hunters', 'id')->where('campaignId', $this->input('campaignId')),
             ],
-            'outcome' => ['nullable', 'in:' . implode(',', array_column(QuestOutcome::cases(), 'value'))],
+            'outcome' => ['nullable', 'in:'.implode(',', array_column(QuestOutcome::cases(), 'value'))],
             'completedAt' => 'nullable|date',
         ];
     }

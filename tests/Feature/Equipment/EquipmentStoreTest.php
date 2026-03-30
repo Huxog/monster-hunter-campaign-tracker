@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Equipment;
 
-use App\Models\Equipment;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

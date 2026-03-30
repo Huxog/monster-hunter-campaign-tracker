@@ -32,8 +32,8 @@ class WeaponUpdate extends FormRequest
         return [
             'name.string' => 'The name must be a string',
             'name.max' => 'The name must not exceed 255 characters',
-            'class.' . Enum::class => 'The class must be a valid weapon class',
-            'element.' . Enum::class => 'The element must be a valid elemental type',
+            'class.'.Enum::class => 'The class must be a valid weapon class',
+            'element.'.Enum::class => 'The element must be a valid elemental type',
             'damage.array' => 'The damage must be an array',
         ];
     }
@@ -43,8 +43,8 @@ class WeaponUpdate extends FormRequest
         return [
             'name.string' => 'WPN-0204-0001',
             'name.max' => 'WPN-0204-0002',
-            'class.' . Enum::class => 'WPN-0204-0003',
-            'element.' . Enum::class => 'WPN-0204-0004',
+            'class.'.Enum::class => 'WPN-0204-0003',
+            'element.'.Enum::class => 'WPN-0204-0004',
             'damage.array' => 'WPN-0204-0005',
         ];
     }
