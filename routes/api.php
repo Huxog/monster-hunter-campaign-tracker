@@ -26,19 +26,26 @@ Route::middleware('auth:sanctum')->group(function () {
     // Read operations - any authenticated user
     Route::apiResource('maps', MapController::class)->only(['index', 'show']);
     Route::apiResource('campaigns', CampaignController::class)->only(['index', 'show']);
-    Route::apiResource('hunters', HunterController::class)->only(['index', 'show']);
+    Route::apiResource('hunters', HunterController::class)->only(['index', 'show', 'store', 'update']);
     Route::apiResource('equipment', EquipmentController::class)->only(['index', 'show']);
     Route::apiResource('weapons', WeaponController::class)->only(['index', 'show']);
     Route::apiResource('materials', MaterialController::class)->only(['index', 'show']);
     Route::apiResource('monsters', MonsterController::class)->only(['index', 'show']);
     Route::apiResource('quests', QuestController::class)->only(['index', 'show']);
     Route::post('hunters/{hunter}/craft', [HunterController::class, 'craft']);
+    Route::post('hunters/{hunter}/loot', [HunterController::class, 'addLoot']);
+    Route::patch('hunters/{hunter}/loot/{material}', [HunterController::class, 'decreaseLoot']);
+    Route::delete('hunters/{hunter}/loot/{material}', [HunterController::class, 'removeLoot']);
+    Route::post('hunters/{hunter}/equip/weapon', [HunterController::class, 'equipWeapon']);
+    Route::post('hunters/{hunter}/equip/helmet', [HunterController::class, 'equipHelmet']);
+    Route::post('hunters/{hunter}/equip/vest', [HunterController::class, 'equipVest']);
+    Route::post('hunters/{hunter}/equip/trouser', [HunterController::class, 'equipTrouser']);
 
     // Write operations - admin only
     Route::middleware('role:admin')->group(function () {
         Route::apiResource('maps', MapController::class)->only(['store', 'update', 'destroy']);
         Route::apiResource('campaigns', CampaignController::class)->only(['store', 'update', 'destroy']);
-        Route::apiResource('hunters', HunterController::class)->only(['store', 'update', 'destroy']);
+        Route::apiResource('hunters', HunterController::class)->only(['destroy']);
         Route::apiResource('equipment', EquipmentController::class)->only(['store', 'update', 'destroy']);
         Route::apiResource('weapons', WeaponController::class)->only(['store', 'update', 'destroy']);
         Route::apiResource('materials', MaterialController::class)->only(['store', 'update', 'destroy']);

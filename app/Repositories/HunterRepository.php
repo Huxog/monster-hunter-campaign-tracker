@@ -18,10 +18,8 @@ class HunterRepository extends CrudRepository implements IHunterRepository
         parent::__construct($hunter);
     }
 
-    // Add Hunter-specific methods here if needed
-    // Example:
-    // public function findByCampaignId(int $campaignId): Collection
-    // {
-    //     return $this->model->where('campaignId', $campaignId)->get();
-    // }
+    public function countByCampaignId(string $campaignId): int
+    {
+        return $this->model->where('campaignId', $campaignId)->count();
+    }
 }

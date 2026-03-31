@@ -3,6 +3,7 @@
 namespace App\Interfaces;
 
 use App\Models\Hunter;
+use App\Models\Material;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -15,4 +16,12 @@ use Illuminate\Database\Eloquent\Model;
 interface IHunterService extends ICrudService
 {
     public function craft(Hunter $hunter, string $craftableType, string $craftableId): Model;
+
+    public function addLoot(Hunter $hunter, string $materialId, int $quantity): Hunter;
+
+    public function decreaseLoot(Hunter $hunter, Material $material, int $quantity): Hunter;
+
+    public function removeLoot(Hunter $hunter, Material $material): Hunter;
+
+    public function equip(Hunter $hunter, string $slot, string $equippableId): Hunter;
 }

@@ -123,7 +123,7 @@ class MaterialSeeder extends Seeder
                 $material->id => ['quantity' => rand(1, 10)],
             ])->all();
 
-            $hunter->materials()->syncWithoutDetaching($pivot);
+            $hunter->loot()->syncWithoutDetaching($pivot);
         });
     }
 

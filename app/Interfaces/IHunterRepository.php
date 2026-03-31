@@ -13,6 +13,5 @@ use App\Models\Hunter;
  */
 interface IHunterRepository extends ICrudRepository
 {
-    // Add Hunter-specific methods here if needed
-    // Example: public function findByCampaignId(int $campaignId): Collection;
+    public function countByCampaignId(string $campaignId): int;
 }
