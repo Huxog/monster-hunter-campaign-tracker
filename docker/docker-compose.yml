@@ -15,26 +15,24 @@ services:
       XDEBUG_CONFIG: client_host=host.docker.internal
       PHP_IDE_CONFIG: serverName=mhapi
     depends_on:
-      mysql:
+      postgres:
         condition: service_healthy
 
-  mysql:
+  postgres:
     container_name: mh-db-service
-    image: mysql:8.0
+    image: postgres:18
     ports:
-      - '3308:3306'
+      - '5432:5432'
     env_file:
         - ../.env
     environment:
-      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-      MYSQL_DATABASE: '${DB_DATABASE}'
-      MYSQL_USER: '${DB_USERNAME}'
-      MYSQL_PASSWORD: '${DB_PASSWORD}'
-      MYSQL_ROOT_HOST: '%'
+      POSTGRES_DB: '${DB_DATABASE}'
+      POSTGRES_USER: '${DB_USERNAME}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD}'
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}"]
       interval: 10s
       retries: 5
       timeout: 5s
@@ -51,4 +49,4 @@ services:
       - fpm
 
 volumes:
-  mysql_data:
+  postgres_data:

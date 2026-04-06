@@ -14,6 +14,7 @@ RUN apk add --no-cache \
     libzip-dev \
     zlib-dev \
     curl-dev \
+    libpq-dev \
     autoconf \
     g++ \
     make \
@@ -21,9 +22,9 @@ RUN apk add --no-cache \
     libtool \
     linux-headers \
     re2c
- RUN docker-php-ext-install \
+RUN docker-php-ext-install \
     pdo \
-    pdo_mysql \
+    pdo_pgsql \
     mbstring \
     bcmath \
     xml \
