@@ -27,3 +27,10 @@ Homestead.yaml
 npm-debug.log
 Thumbs.db
 yarn-error.log
+
+# Terraform
+infrastructure/terraform/.terraform/
+infrastructure/terraform/terraform.tfvars
+infrastructure/terraform/*.tfstate
+infrastructure/terraform/*.tfstate.backup
+infrastructure/terraform/.terraform.lock.hcl

@@ -1,0 +1,39 @@
+# ── Stage 1: Build ────────────────────────────────────────────────────────────
+FROM php:8.2-fpm-alpine AS builder
+
+WORKDIR /var/www/html
+
+RUN apk add --no-cache libpq-dev && \
+    docker-php-ext-install pdo pdo_pgsql mbstring bcmath
+
+COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
+
+# Install dependencies first (separate layer for caching)
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
+
+# Copy application code
+COPY . .
+
+# Regenerate autoload with actual application classes
+RUN composer dump-autoload --no-dev --optimize
+
+# ── Stage 2: Final image ───────────────────────────────────────────────────────
+FROM php:8.2-fpm-alpine
+
+WORKDIR /var/www/html
+
+# Runtime dependency only — no build tools
+RUN apk add --no-cache libpq-dev && \
+    docker-php-ext-install pdo pdo_pgsql mbstring bcmath && \
+    rm -rf /var/cache/apk/*
+
+COPY --chown=www-data:www-data --from=builder /var/www/html .
+
+RUN chmod -R 755 storage bootstrap/cache
+
+COPY docker/app/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+EXPOSE 9000
+CMD ["/entrypoint.sh"]

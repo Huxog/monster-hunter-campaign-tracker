@@ -1,0 +1,8 @@
+# Copy this file to terraform.tfvars and fill in the values.
+# terraform.tfvars is gitignored — never commit it.
+
+aws_region   = "us-west-1"
+project_name = "mhapi"
+db_name      = "mhapi"
+db_username  = "mhapi"
+db_password  = "your-strong-password-here"
