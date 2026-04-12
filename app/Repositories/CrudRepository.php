@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Interfaces\ICrudRepository;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -18,13 +18,29 @@ use Illuminate\Database\Eloquent\Model;
  */
 abstract class CrudRepository implements ICrudRepository
 {
+    /**
+     * Columns that may be used as equality filters on index queries.
+     * Override in entity repositories to enable filtering.
+     *
+     * @var array<string>
+     */
+    protected array $filterable = [];
+
     public function __construct(
         protected Model $model
     ) {}
 
-    public function all(array $relations = []): Collection
+    public function all(array $filters = [], int $perPage = 15, array $relations = []): LengthAwarePaginator
     {
-        return $this->model->with($relations)->get();
+        $query = $this->model->with($relations)->newQuery();
+
+        foreach ($filters as $column => $value) {
+            if (in_array($column, $this->filterable, true) && $value !== null && $value !== '') {
+                $query->where($column, $value);
+            }
+        }
+
+        return $query->paginate($perPage);
     }
 
     public function find(string $id, array $relations = []): ?Model

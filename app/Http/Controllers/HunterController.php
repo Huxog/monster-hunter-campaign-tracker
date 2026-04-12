@@ -13,9 +13,11 @@ use App\Http\Resources\HunterCollection;
 use App\Http\Resources\HunterResource;
 use App\Http\Resources\WeaponResource;
 use App\Interfaces\IHunterService;
+use App\Models\Campaign;
 use App\Models\Hunter;
 use App\Models\Material;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * @group Hunters
@@ -33,12 +35,31 @@ class HunterController extends Controller
      *
      * @authenticated
      *
-     * @queryParam sort string Field to sort by. Defaults to 'id'
-     * @queryParam direction string Direction of the sorting 'asc'/'desc'
+     * @queryParam campaignId string Filter by campaign UUID. Example: 019bf2f1-70b4-70e2-abd2-83879497461b
+     * @queryParam class string Filter by hunter weapon class. Example: GreatSword
+     * @queryParam page integer Page number to retrieve. Defaults to 1. Example: 1
+     * @queryParam per_page integer Number of results per page (max 100). Defaults to 15. Example: 15
      */
-    public function index(): HunterCollection
+    public function index(Request $request): HunterCollection
     {
-        return new HunterCollection($this->hunterService->getAll());
+        $filters = array_filter($request->only(['campaignId', 'class']));
+
+        return new HunterCollection($this->hunterService->getAll($filters, $this->perPage($request)));
+    }
+
+    /**
+     * Display a listing of hunters belonging to a campaign.
+     *
+     * @authenticated
+     *
+     * @queryParam page integer Page number to retrieve. Defaults to 1. Example: 1
+     * @queryParam per_page integer Number of results per page (max 100). Defaults to 15. Example: 15
+     */
+    public function indexByCampaign(Campaign $campaign, Request $request): HunterCollection
+    {
+        return new HunterCollection(
+            $this->hunterService->getAll(['campaignId' => $campaign->id], $this->perPage($request))
+        );
     }
 
     /**

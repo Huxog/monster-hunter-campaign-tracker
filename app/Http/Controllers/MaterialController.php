@@ -10,6 +10,7 @@ use App\Interfaces\IMaterialService;
 use App\Models\Material;
 use App\Traits\FormatExceptionResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * @group Materials
@@ -28,10 +29,13 @@ class MaterialController extends Controller
      * Display a listing of materials.
      *
      * @authenticated
+     *
+     * @queryParam page integer Page number to retrieve. Defaults to 1. Example: 1
+     * @queryParam per_page integer Number of results per page (max 100). Defaults to 15. Example: 15
      */
-    public function index(): MaterialCollection
+    public function index(Request $request): MaterialCollection
     {
-        return new MaterialCollection($this->materialService->getAll());
+        return new MaterialCollection($this->materialService->getAll([], $this->perPage($request)));
     }
 
     /**

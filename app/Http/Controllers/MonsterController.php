@@ -10,6 +10,7 @@ use App\Interfaces\IMonsterService;
 use App\Models\Monster;
 use App\Traits\FormatExceptionResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -28,12 +29,15 @@ class MonsterController extends Controller
      *
      * @authenticated
      *
-     * @queryParam sort string Field to sort by. Defaults to 'id'
-     * @queryParam direction string Direction of the sorting 'asc'/'desc'
+     * @queryParam stars integer Filter by difficulty (star rating). Example: 3
+     * @queryParam page integer Page number to retrieve. Defaults to 1. Example: 1
+     * @queryParam per_page integer Number of results per page (max 100). Defaults to 15. Example: 15
      */
-    public function index(): MonsterCollection
+    public function index(Request $request): MonsterCollection
     {
-        return new MonsterCollection($this->monsterService->getAll());
+        $filters = array_filter($request->only(['stars']), fn ($v) => $v !== null && $v !== '');
+
+        return new MonsterCollection($this->monsterService->getAll($filters, $this->perPage($request)));
     }
 
     /**

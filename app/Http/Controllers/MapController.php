@@ -10,6 +10,7 @@ use App\Interfaces\IMapService;
 use App\Models\Map;
 use App\Traits\FormatExceptionResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * @group Maps
@@ -29,12 +30,12 @@ class MapController extends Controller
      *
      * @authenticated
      *
-     * @queryParam sort string Field to sort by. Defaults to 'id'
-     * @queryParam direction string Direction of the sorting 'asc'/'desc'
+     * @queryParam page integer Page number to retrieve. Defaults to 1. Example: 1
+     * @queryParam per_page integer Number of results per page (max 100). Defaults to 15. Example: 15
      */
-    public function index(): MapCollection
+    public function index(Request $request): MapCollection
     {
-        return new MapCollection($this->mapService->getAll());
+        return new MapCollection($this->mapService->getAll([], $this->perPage($request)));
     }
 
     /**

@@ -13,6 +13,8 @@ use App\Models\Weapon;
  */
 class WeaponRepository extends CrudRepository implements IWeaponRepository
 {
+    protected array $filterable = ['class', 'element'];
+
     public function __construct(Weapon $model)
     {
         parent::__construct($model);

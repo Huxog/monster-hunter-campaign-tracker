@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Interfaces\ICrudRepository;
 use App\Interfaces\ICrudService;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -32,9 +32,9 @@ abstract class CrudService implements ICrudService
         protected ICrudRepository $repository
     ) {}
 
-    public function getAll(): Collection
+    public function getAll(array $filters = [], int $perPage = 15): LengthAwarePaginator
     {
-        return $this->repository->all($this->defaultRelations);
+        return $this->repository->all($filters, $perPage, $this->defaultRelations);
     }
 
     public function getById(string $id): Model

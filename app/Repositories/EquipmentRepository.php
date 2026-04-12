@@ -13,6 +13,8 @@ use App\Models\Equipment;
  */
 class EquipmentRepository extends CrudRepository implements IEquipmentRepository
 {
+    protected array $filterable = ['type', 'class'];
+
     public function __construct(Equipment $model)
     {
         parent::__construct($model);

@@ -13,15 +13,10 @@ use App\Models\Campaign;
  */
 class CampaignRepository extends CrudRepository implements ICampaignRepository
 {
+    protected array $filterable = ['mapId'];
+
     public function __construct(Campaign $campaign)
     {
         parent::__construct($campaign);
     }
-
-    // Add Campaign-specific methods here if needed
-    // Example:
-    // public function findByMapId(int $mapId): Collection
-    // {
-    //     return $this->model->where('mapId', $mapId)->get();
-    // }
 }

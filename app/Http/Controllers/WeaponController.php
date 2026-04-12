@@ -9,6 +9,7 @@ use App\Http\Resources\WeaponResource;
 use App\Interfaces\IWeaponService;
 use App\Models\Weapon;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * @group Weapons
@@ -26,12 +27,16 @@ class WeaponController extends Controller
      *
      * @authenticated
      *
-     * @queryParam sort string Field to sort by. Defaults to 'id'
-     * @queryParam direction string Direction of the sorting 'asc'/'desc'
+     * @queryParam class string Filter by weapon class (e.g. GreatSword, Bow). Example: Bow
+     * @queryParam element string Filter by elemental type (e.g. Fire, Water). Example: Fire
+     * @queryParam page integer Page number to retrieve. Defaults to 1. Example: 1
+     * @queryParam per_page integer Number of results per page (max 100). Defaults to 15. Example: 15
      */
-    public function index(): WeaponCollection
+    public function index(Request $request): WeaponCollection
     {
-        return new WeaponCollection($this->weaponService->getAll());
+        $filters = array_filter($request->only(['class', 'element']));
+
+        return new WeaponCollection($this->weaponService->getAll($filters, $this->perPage($request)));
     }
 
     /**

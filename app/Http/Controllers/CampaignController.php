@@ -9,6 +9,7 @@ use App\Http\Resources\CampaignResource;
 use App\Interfaces\ICampaignService;
 use App\Models\Campaign;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * @group Campaigns
@@ -26,12 +27,15 @@ class CampaignController extends Controller
      *
      * @authenticated
      *
-     * @queryParam sort string Field to sort by. Defaults to 'id'
-     * @queryParam direction string Direction of the sorting 'asc'/'desc'
+     * @queryParam mapId string Filter by map UUID. Example: 019bf2f1-70b4-70e2-abd2-83879497461b
+     * @queryParam page integer Page number to retrieve. Defaults to 1. Example: 1
+     * @queryParam per_page integer Number of results per page (max 100). Defaults to 15. Example: 15
      */
-    public function index(): CampaignCollection
+    public function index(Request $request): CampaignCollection
     {
-        return new CampaignCollection($this->campaignService->getAll());
+        $filters = array_filter($request->only(['mapId']));
+
+        return new CampaignCollection($this->campaignService->getAll($filters, $this->perPage($request)));
     }
 
     /**

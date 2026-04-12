@@ -2,7 +2,7 @@
 
 namespace App\Interfaces;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -16,12 +16,13 @@ use Illuminate\Database\Eloquent\Model;
 interface ICrudRepository
 {
     /**
-     * Get all records.
+     * Get paginated records, optionally filtered.
      *
+     * @param  array<string, mixed>  $filters
      * @param  array<string>  $relations
-     * @return Collection<int, T>
+     * @return LengthAwarePaginator<T>
      */
-    public function all(array $relations = []): Collection;
+    public function all(array $filters = [], int $perPage = 15, array $relations = []): LengthAwarePaginator;
 
     /**
      * Find a record by ID.

@@ -10,6 +10,7 @@ use App\Interfaces\IEquipmentService;
 use App\Models\Equipment;
 use App\Traits\FormatExceptionResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * @group Equipment
@@ -28,10 +29,17 @@ class EquipmentController extends Controller
      * Display a listing of equipment.
      *
      * @authenticated
+     *
+     * @queryParam type string Filter by equipment type (helmet, vest, trouser). Example: helmet
+     * @queryParam class string Filter by weapon class compatibility. Example: GreatSword
+     * @queryParam page integer Page number to retrieve. Defaults to 1. Example: 1
+     * @queryParam per_page integer Number of results per page (max 100). Defaults to 15. Example: 15
      */
-    public function index(): EquipmentCollection
+    public function index(Request $request): EquipmentCollection
     {
-        return new EquipmentCollection($this->equipmentService->getAll());
+        $filters = array_filter($request->only(['type', 'class']));
+
+        return new EquipmentCollection($this->equipmentService->getAll($filters, $this->perPage($request)));
     }
 
     /**

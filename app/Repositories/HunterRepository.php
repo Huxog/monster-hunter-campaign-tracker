@@ -13,6 +13,8 @@ use App\Models\Hunter;
  */
 class HunterRepository extends CrudRepository implements IHunterRepository
 {
+    protected array $filterable = ['campaignId', 'class'];
+
     public function __construct(Hunter $hunter)
     {
         parent::__construct($hunter);
