@@ -19,12 +19,15 @@ foreach (['', 'v1'] as $version) {
         Route::prefix('auth')->group(function () {
             Route::post('register', [AuthController::class, 'register']);
             Route::post('login', [AuthController::class, 'login']);
+            Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
+            Route::post('reset-password', [AuthController::class, 'resetPassword']);
         });
 
         Route::middleware('auth:sanctum')->group(function () {
             // Auth
             Route::post('auth/logout', [AuthController::class, 'logout']);
             Route::get('auth/me', [AuthController::class, 'me']);
+            Route::post('auth/change-password', [AuthController::class, 'changePassword']);
 
             // Read operations - any authenticated user
             Route::apiResource('maps', MapController::class)->only(['index', 'show']);
