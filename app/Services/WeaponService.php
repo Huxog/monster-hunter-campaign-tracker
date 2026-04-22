@@ -4,22 +4,16 @@ namespace App\Services;
 
 use App\Interfaces\IWeaponRepository;
 use App\Interfaces\IWeaponService;
+use App\Traits\SyncsMaterials;
 
-/**
- * Weapon service implementation.
- *
- * Inherits CRUD operations from base class.
- * Add Weapon-specific business logic here if needed.
- */
 class WeaponService extends CrudService implements IWeaponService
 {
-    // Define default relations to eager load (optional)
-    protected array $defaultRelations = ['hunter'];
+    use SyncsMaterials;
+
+    protected array $defaultRelations = ['hunter', 'materials'];
 
     public function __construct(IWeaponRepository $repository)
     {
         parent::__construct($repository);
     }
-
-    // Add Weapon-specific business logic here if needed
 }

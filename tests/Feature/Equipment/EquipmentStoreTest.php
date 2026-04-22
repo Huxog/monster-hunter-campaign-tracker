@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Equipment;
 
+use App\Models\Material;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -104,6 +105,53 @@ class EquipmentStoreTest extends TestCase
 
         $response->assertStatus(406)
             ->assertJsonPath('0.code', 'EQP-0202-0006');
+    }
+
+    public function test_admin_creates_equipment_with_materials(): void
+    {
+        $this->asAdmin();
+        $materials = Material::factory()->count(2)->create();
+
+        $response = $this->postJson('api/equipment', [
+            'name' => 'Rathalos Helm',
+            'type' => 'helmet',
+            'class' => 'Great Sword',
+            'materials' => $materials->map(fn ($m) => ['id' => $m->id, 'quantity' => 3])->all(),
+        ]);
+
+        $response->assertStatus(201)
+            ->assertJsonCount(2, 'data.materials');
+    }
+
+    public function test_returns_validation_error_when_material_id_not_found(): void
+    {
+        $this->asAdmin();
+
+        $response = $this->postJson('api/equipment', [
+            'name' => 'Rathalos Helm',
+            'type' => 'helmet',
+            'class' => 'Great Sword',
+            'materials' => [['id' => '019bf2f1-70b4-70e2-abd2-83879497461b', 'quantity' => 1]],
+        ]);
+
+        $response->assertStatus(406)
+            ->assertJsonPath('0.code', 'EQP-0202-0012');
+    }
+
+    public function test_returns_validation_error_when_material_quantity_missing(): void
+    {
+        $this->asAdmin();
+        $material = Material::factory()->create();
+
+        $response = $this->postJson('api/equipment', [
+            'name' => 'Rathalos Helm',
+            'type' => 'helmet',
+            'class' => 'Great Sword',
+            'materials' => [['id' => $material->id]],
+        ]);
+
+        $response->assertStatus(406)
+            ->assertJsonPath('0.code', 'EQP-0202-0013');
     }
 
     public function test_returns_validation_error_when_class_invalid(): void

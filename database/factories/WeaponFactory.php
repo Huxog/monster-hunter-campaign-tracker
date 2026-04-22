@@ -24,7 +24,6 @@ class WeaponFactory extends Factory
             'class' => fake()->randomElement(WeaponClass::cases()),
             'element' => fake()->randomElement(ElementalType::cases()),
             'damage' => [
-                DamageCard::Zero->value => fake()->numberBetween(5, 8),
                 DamageCard::One->value => fake()->numberBetween(5, 8),
                 DamageCard::Two->value => fake()->numberBetween(5, 8),
                 DamageCard::Three->value => fake()->numberBetween(5, 8),

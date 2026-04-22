@@ -19,6 +19,7 @@ class EquipmentTest extends TestCase
             'armor',
             'elementalResistances',
             'class',
+            'imagePath',
         ];
 
         $this->assertEquals($expected, $equipment->getFillable());

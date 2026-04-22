@@ -29,6 +29,7 @@ class Equipment extends Model
         'armor',
         'elementalResistances',
         'class',
+        'imagePath',
     ];
 
     /** @var array Attribute casting */

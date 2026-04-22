@@ -30,7 +30,11 @@ class EquipmentUpdate extends FormRequest
             'elementalResistances.thunder' => 'nullable|integer|min:0|max:5',
             'elementalResistances.water' => 'nullable|integer|min:0|max:5',
             'elementalResistances.dragon' => 'nullable|integer|min:0|max:5',
-            'class' => ['nullable', new Enum(WeaponClass::class)],
+            'class' => ['sometimes', 'nullable', new Enum(WeaponClass::class)],
+            'imagePath' => 'sometimes|nullable|string',
+            'materials' => 'sometimes|nullable|array',
+            'materials.*.id' => 'required|uuid|exists:materials,id',
+            'materials.*.quantity' => 'required|integer|min:1',
         ];
     }
 
@@ -44,6 +48,11 @@ class EquipmentUpdate extends FormRequest
             'armor.integer' => 'The armor value must be an integer',
             'armor.min' => 'The armor value must be at least 0',
             'elementalResistances.array' => 'The elemental resistances must be an array',
+            'materials.array' => 'Materials must be an array',
+            'materials.*.id.exists' => 'One or more materials were not found',
+            'materials.*.quantity.required' => 'Each material entry must specify a quantity',
+            'materials.*.quantity.integer' => 'Material quantity must be an integer',
+            'materials.*.quantity.min' => 'Material quantity must be at least 1',
         ];
     }
 
@@ -57,6 +66,11 @@ class EquipmentUpdate extends FormRequest
             'armor.integer' => 'EQP-0204-0005',
             'armor.min' => 'EQP-0204-0006',
             'elementalResistances.array' => 'EQP-0204-0007',
+            'materials.array' => 'EQP-0204-0008',
+            'materials.*.id.exists' => 'EQP-0204-0009',
+            'materials.*.quantity.required' => 'EQP-0204-0010',
+            'materials.*.quantity.integer' => 'EQP-0204-0011',
+            'materials.*.quantity.min' => 'EQP-0204-0012',
         ];
     }
 
@@ -69,6 +83,8 @@ class EquipmentUpdate extends FormRequest
             'armor' => ['description' => 'The armor defense value', 'example' => 50],
             'class' => ['description' => 'The weapon class this equipment is associated with', 'example' => 'Great Sword'],
             'elementalResistances' => ['description' => 'Elemental resistance values (0–5 each)', 'example' => ['fire' => 3, 'ice' => 0]],
+            'imagePath' => ['description' => 'URL or path to the equipment image', 'example' => 'https://example.com/rathalos-helm.png'],
+            'materials' => ['description' => 'Array of materials required to craft this equipment, each with an id and quantity. Omit to leave the recipe unchanged.', 'example' => [['id' => 'uuid', 'quantity' => 2]]],
         ];
     }
 }

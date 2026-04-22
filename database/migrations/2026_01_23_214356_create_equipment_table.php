@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('armor')->nullable();
             $table->json('elementalResistances')->nullable();
             $table->string('class')->nullable();
+            $table->string('imagePath')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

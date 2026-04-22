@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('class');
             $table->string('element');
             $table->json('damage');
+            $table->string('imagePath')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

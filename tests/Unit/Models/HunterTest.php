@@ -14,6 +14,7 @@ class HunterTest extends TestCase
             'playerName',
             'hunterName',
             'campaignId',
+            'userId',
             'helmetId',
             'vestId',
             'trousersId',

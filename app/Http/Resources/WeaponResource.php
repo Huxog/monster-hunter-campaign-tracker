@@ -20,7 +20,9 @@ class WeaponResource extends JsonResource
             'class' => $this->class,
             'element' => $this->element,
             'damage' => $this->damage,
+            'imagePath' => $this->imagePath,
             'hunter' => new HunterResource($this->whenLoaded('hunter')),
+            'materials' => MaterialResource::collection($this->whenLoaded('materials')),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];

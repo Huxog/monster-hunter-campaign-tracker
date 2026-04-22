@@ -28,6 +28,7 @@ class Weapon extends Model
         'class',
         'element',
         'damage',
+        'imagePath',
     ];
 
     /** @var array Attribute casting */
