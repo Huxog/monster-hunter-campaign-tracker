@@ -11,17 +11,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        self::call([
+        $this->call([
             RolePermissionSeeder::class,
             AdminUserSeeder::class,
-            MapSeeder::class,
-            WeaponSeeder::class,
-            EquipmentSeeder::class,
-            CampaignSeeder::class,
-            HunterSeeder::class,
-            MaterialSeeder::class,
-            MonsterSeeder::class,
-            QuestSeeder::class,
         ]);
+
+        if (! app()->environment('production')) {
+            $this->call(DevSeeder::class);
+        }
     }
 }

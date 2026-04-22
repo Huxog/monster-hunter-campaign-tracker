@@ -29,15 +29,17 @@ Schema::create('table_name', function (Blueprint $table) {
 
 ## Seeders
 
-- `DatabaseSeeder` calls all seeders in dependency order (roles first, then independent entities, then dependent ones)
-- Every new entity needs a seeder registered in `DatabaseSeeder::run()`
+- `DatabaseSeeder` only contains production-safe seeders (roles, permissions, admin user)
+- `DevSeeder` contains all fake/fixture data and is called by `DatabaseSeeder` in non-production environments
+- New entity seeders with fake data go in `DevSeeder`, not `DatabaseSeeder`
 - Seeders use factories: `Model::factory()->count(n)->create()`
 - The seeder order must respect foreign key dependencies
 
-Current seeder order for reference:
+Current seeder split:
 ```
-RolePermissionSeeder → AdminUserSeeder → MapSeeder → WeaponSeeder
-→ EquipmentSeeder → CampaignSeeder → HunterSeeder → MaterialSeeder
+DatabaseSeeder (always): RolePermissionSeeder → AdminUserSeeder
+DevSeeder (non-prod):    UserSeeder → MapSeeder → WeaponSeeder → EquipmentSeeder
+                         → CampaignSeeder → HunterSeeder → MaterialSeeder → MonsterSeeder → QuestSeeder
 ```
 
 ## Factories
