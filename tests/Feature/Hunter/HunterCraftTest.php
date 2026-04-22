@@ -20,8 +20,8 @@ class HunterCraftTest extends TestCase
     public function test_player_can_craft_weapon_with_sufficient_materials(): void
     {
         $this->asPlayer();
-        $hunter = Hunter::factory()->create();
-        $weapon = Weapon::factory()->create();
+        $hunter = Hunter::factory()->create(['class' => 'Bow']);
+        $weapon = Weapon::factory()->create(['class' => 'Bow']);
         $material = Material::factory()->create();
 
         $weapon->materials()->attach($material->id, ['quantity' => 3]);
@@ -44,8 +44,8 @@ class HunterCraftTest extends TestCase
     public function test_player_can_craft_equipment_with_sufficient_materials(): void
     {
         $this->asPlayer();
-        $hunter = Hunter::factory()->create();
-        $equipment = Equipment::factory()->create();
+        $hunter = Hunter::factory()->create(['class' => 'Bow']);
+        $equipment = Equipment::factory()->create(['class' => 'Bow']);
         $material = Material::factory()->create();
 
         $equipment->materials()->attach($material->id, ['quantity' => 2]);
@@ -68,8 +68,8 @@ class HunterCraftTest extends TestCase
     public function test_crafting_deducts_quantity_when_material_is_partially_consumed(): void
     {
         $this->asPlayer();
-        $hunter = Hunter::factory()->create();
-        $weapon = Weapon::factory()->create();
+        $hunter = Hunter::factory()->create(['class' => 'Bow']);
+        $weapon = Weapon::factory()->create(['class' => 'Bow']);
         $material = Material::factory()->create();
 
         $weapon->materials()->attach($material->id, ['quantity' => 3]);
@@ -90,8 +90,8 @@ class HunterCraftTest extends TestCase
     public function test_crafting_removes_material_from_loot_when_fully_consumed(): void
     {
         $this->asPlayer();
-        $hunter = Hunter::factory()->create();
-        $weapon = Weapon::factory()->create();
+        $hunter = Hunter::factory()->create(['class' => 'Bow']);
+        $weapon = Weapon::factory()->create(['class' => 'Bow']);
         $material = Material::factory()->create();
 
         $weapon->materials()->attach($material->id, ['quantity' => 3]);
@@ -111,8 +111,8 @@ class HunterCraftTest extends TestCase
     public function test_crafting_same_item_twice_does_not_duplicate_inventory_entry(): void
     {
         $this->asPlayer();
-        $hunter = Hunter::factory()->create();
-        $weapon = Weapon::factory()->create();
+        $hunter = Hunter::factory()->create(['class' => 'Bow']);
+        $weapon = Weapon::factory()->create(['class' => 'Bow']);
         $material = Material::factory()->create();
 
         $weapon->materials()->attach($material->id, ['quantity' => 1]);
@@ -136,8 +136,8 @@ class HunterCraftTest extends TestCase
     public function test_crafting_deducts_all_required_materials(): void
     {
         $this->asPlayer();
-        $hunter = Hunter::factory()->create();
-        $weapon = Weapon::factory()->create();
+        $hunter = Hunter::factory()->create(['class' => 'Bow']);
+        $weapon = Weapon::factory()->create(['class' => 'Bow']);
         [$mat1, $mat2] = Material::factory()->count(2)->create();
 
         $weapon->materials()->attach([
@@ -162,11 +162,29 @@ class HunterCraftTest extends TestCase
     // Error paths
     // -------------------------------------------------------------------------
 
+    public function test_returns_422_when_craftable_class_does_not_match_hunter_class(): void
+    {
+        $this->asPlayer();
+        $hunter = Hunter::factory()->create(['class' => 'Bow']);
+        $weapon = Weapon::factory()->create(['class' => 'Hammer']);
+        $material = Material::factory()->create();
+
+        $weapon->materials()->attach($material->id, ['quantity' => 1]);
+        $hunter->loot()->attach($material->id, ['quantity' => 5]);
+
+        $this->postJson("api/hunters/{$hunter->id}/craft", [
+            'craftableType' => 'weapon',
+            'craftableId' => $weapon->id,
+        ])
+            ->assertUnprocessable()
+            ->assertJsonPath('code', 'HUN-0306-0003');
+    }
+
     public function test_returns_422_when_hunter_has_insufficient_materials(): void
     {
         $this->asPlayer();
-        $hunter = Hunter::factory()->create();
-        $weapon = Weapon::factory()->create();
+        $hunter = Hunter::factory()->create(['class' => 'Bow']);
+        $weapon = Weapon::factory()->create(['class' => 'Bow']);
         $material = Material::factory()->create();
 
         $weapon->materials()->attach($material->id, ['quantity' => 5]);
@@ -186,8 +204,8 @@ class HunterCraftTest extends TestCase
     public function test_returns_422_when_item_has_no_recipe(): void
     {
         $this->asPlayer();
-        $hunter = Hunter::factory()->create();
-        $weapon = Weapon::factory()->create();
+        $hunter = Hunter::factory()->create(['class' => 'Bow']);
+        $weapon = Weapon::factory()->create(['class' => 'Bow']);
 
         $this->postJson("api/hunters/{$hunter->id}/craft", [
             'craftableType' => 'weapon',
@@ -200,7 +218,7 @@ class HunterCraftTest extends TestCase
     public function test_returns_404_when_craftable_id_does_not_exist(): void
     {
         $this->asPlayer();
-        $hunter = Hunter::factory()->create();
+        $hunter = Hunter::factory()->create(['class' => 'Bow']);
 
         $this->postJson("api/hunters/{$hunter->id}/craft", [
             'craftableType' => 'weapon',
@@ -221,7 +239,7 @@ class HunterCraftTest extends TestCase
     public function test_returns_406_when_craftable_type_is_invalid(): void
     {
         $this->asPlayer();
-        $hunter = Hunter::factory()->create();
+        $hunter = Hunter::factory()->create(['class' => 'Bow']);
 
         $this->postJson("api/hunters/{$hunter->id}/craft", [
             'craftableType' => 'potion',
@@ -234,7 +252,7 @@ class HunterCraftTest extends TestCase
     public function test_returns_406_when_craftable_id_is_missing(): void
     {
         $this->asPlayer();
-        $hunter = Hunter::factory()->create();
+        $hunter = Hunter::factory()->create(['class' => 'Bow']);
 
         $this->postJson("api/hunters/{$hunter->id}/craft", [
             'craftableType' => 'weapon',
@@ -246,7 +264,7 @@ class HunterCraftTest extends TestCase
     public function test_returns_406_when_craftable_id_is_not_a_uuid(): void
     {
         $this->asPlayer();
-        $hunter = Hunter::factory()->create();
+        $hunter = Hunter::factory()->create(['class' => 'Bow']);
 
         $this->postJson("api/hunters/{$hunter->id}/craft", [
             'craftableType' => 'weapon',
@@ -258,7 +276,7 @@ class HunterCraftTest extends TestCase
 
     public function test_unauthenticated_user_cannot_craft(): void
     {
-        $hunter = Hunter::factory()->create();
+        $hunter = Hunter::factory()->create(['class' => 'Bow']);
 
         $this->postJson("api/hunters/{$hunter->id}/craft", [
             'craftableType' => 'weapon',
@@ -269,8 +287,8 @@ class HunterCraftTest extends TestCase
     public function test_loot_is_unchanged_after_failed_craft(): void
     {
         $this->asPlayer();
-        $hunter = Hunter::factory()->create();
-        $weapon = Weapon::factory()->create();
+        $hunter = Hunter::factory()->create(['class' => 'Bow']);
+        $weapon = Weapon::factory()->create(['class' => 'Bow']);
         [$mat1, $mat2] = Material::factory()->count(2)->create();
 
         $weapon->materials()->attach([

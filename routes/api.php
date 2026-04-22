@@ -45,6 +45,7 @@ foreach (['', 'v1'] as $version) {
             Route::get('campaigns/{campaign}/loot', [CampaignController::class, 'loot']);
 
             // Hunter actions
+            Route::get('hunters/{hunter}/craftables', [HunterController::class, 'craftables']);
             Route::post('hunters/{hunter}/craft', [HunterController::class, 'craft']);
             Route::post('hunters/{hunter}/loot', [HunterController::class, 'addLoot']);
             Route::patch('hunters/{hunter}/loot/{material}', [HunterController::class, 'decreaseLoot']);

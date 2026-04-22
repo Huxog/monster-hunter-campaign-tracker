@@ -115,6 +115,23 @@ class HunterController extends Controller
     }
 
     /**
+     * List all weapons and equipment the hunter can craft with their current loot.
+     *
+     * @authenticated
+     */
+    public function craftables(Hunter $hunter): JsonResponse
+    {
+        $craftables = $this->hunterService->getCraftables($hunter);
+
+        return response()->json([
+            'data' => [
+                'weapons' => WeaponResource::collection($craftables['weapons']),
+                'equipment' => EquipmentResource::collection($craftables['equipment']),
+            ],
+        ]);
+    }
+
+    /**
      * Craft a weapon or equipment item for the specified hunter.
      *
      * @authenticated

@@ -17,6 +17,8 @@ interface IHunterService extends ICrudService
 {
     public function craft(Hunter $hunter, string $craftableType, string $craftableId): Model;
 
+    public function getCraftables(Hunter $hunter): array;
+
     public function addLoot(Hunter $hunter, string $materialId, int $quantity): Hunter;
 
     public function decreaseLoot(Hunter $hunter, Material $material, int $quantity): Hunter;

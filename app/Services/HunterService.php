@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\CampaignHunterLimitException;
+use App\Exceptions\ClassMismatchException;
 use App\Exceptions\InsufficientMaterialsException;
 use App\Exceptions\ItemNotInInventoryException;
 use App\Exceptions\RecipeNotFoundException;
@@ -64,6 +65,39 @@ class HunterService extends CrudService implements IHunterService
     }
 
     /**
+     * Return all weapons and equipment the hunter can currently craft.
+     *
+     * Only items that have a recipe AND whose every required material is
+     * covered by the hunter's current loot quantities are included.
+     */
+    public function getCraftables(Hunter $hunter): array
+    {
+        $hunter->loadMissing('loot', 'inventoryWeapons', 'inventoryEquipment');
+        $loot = $hunter->loot->keyBy('id');
+        $ownedWeaponIds = $hunter->inventoryWeapons->pluck('id');
+        $ownedEquipmentIds = $hunter->inventoryEquipment->pluck('id');
+
+        $canAfford = function ($craftable) use ($loot): bool {
+            if ($craftable->materials->isEmpty()) {
+                return false;
+            }
+
+            foreach ($craftable->materials as $required) {
+                if (($loot->get($required->id)?->pivot->quantity ?? 0) < $required->pivot->quantity) {
+                    return false;
+                }
+            }
+
+            return true;
+        };
+
+        return [
+            'weapons' => Weapon::with('materials')->where('class', $hunter->class)->whereNotIn('id', $ownedWeaponIds)->get()->filter($canAfford)->values(),
+            'equipment' => Equipment::with('materials')->where('class', $hunter->class)->whereNotIn('id', $ownedEquipmentIds)->get()->filter($canAfford)->values(),
+        ];
+    }
+
+    /**
      * Craft a weapon or equipment item for the given hunter.
      *
      * Validates material sufficiency before writing to the database.
@@ -82,6 +116,10 @@ class HunterService extends CrudService implements IHunterService
 
         if ($craftable === null) {
             throw new ModelNotFoundException;
+        }
+
+        if ($craftable->class->value !== $hunter->class) {
+            throw new ClassMismatchException;
         }
 
         if ($craftable->materials->isEmpty()) {
