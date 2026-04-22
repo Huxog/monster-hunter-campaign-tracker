@@ -6,6 +6,7 @@ use App\Enums\EquipmentType;
 use App\Enums\WeaponClass;
 use App\Models\Campaign;
 use App\Models\Equipment;
+use App\Models\User;
 use App\Models\Weapon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -25,6 +26,7 @@ class HunterFactory extends Factory
             'playerName' => fake()->name(),
             'hunterName' => fake()->word(),
             'campaignId' => Campaign::factory(),
+            'userId' => User::factory(),
             'class' => fake()->randomElement(WeaponClass::cases()),
         ];
     }

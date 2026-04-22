@@ -33,6 +33,8 @@ class HunterController extends Controller
     /**
      * Display a listing of hunters.
      *
+     * Players only see their own hunters. Admins see all hunters.
+     *
      * @authenticated
      *
      * @queryParam campaignId string Filter by campaign UUID. Example: 019bf2f1-70b4-70e2-abd2-83879497461b
@@ -43,6 +45,10 @@ class HunterController extends Controller
     public function index(Request $request): HunterCollection
     {
         $filters = array_filter($request->only(['campaignId', 'class']));
+
+        if ($userId = $this->scopedUserId()) {
+            $filters['userId'] = $userId;
+        }
 
         return new HunterCollection($this->hunterService->getAll($filters, $this->perPage($request)));
     }
@@ -69,7 +75,9 @@ class HunterController extends Controller
      */
     public function store(HunterStore $request): JsonResponse
     {
-        $hunter = $this->hunterService->create($request->validated());
+        $hunter = $this->hunterService->create(
+            array_merge($request->validated(), ['userId' => auth()->id()])
+        );
 
         return (new HunterResource($hunter))
             ->response()

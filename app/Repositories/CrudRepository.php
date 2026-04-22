@@ -4,7 +4,9 @@ namespace App\Repositories;
 
 use App\Interfaces\ICrudRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator as ConcretePaginator;
 
 /**
  * Abstract base repository with common CRUD operations.
@@ -32,16 +34,27 @@ abstract class CrudRepository implements ICrudRepository
 
     public function all(array $filters = [], int $perPage = 15, array $relations = []): LengthAwarePaginator
     {
-        $query = $this->model->with($relations)->newQuery();
+        $query = $this->model->with($relations)->newQuery()->orderBy('created_at');
 
         foreach ($filters as $column => $value) {
-            if (in_array($column, $this->filterable, true) && $value !== null && $value !== '') {
+            if ($column === 'userId' && $value !== null) {
+                $this->applyUserScope($query, $value);
+            } elseif (in_array($column, $this->filterable, true) && $value !== null && $value !== '') {
                 $query->where($column, $value);
             }
         }
 
+        if ($perPage === 0) {
+            $results = $query->get();
+            $total = $results->count();
+
+            return new ConcretePaginator($results, $total, max($total, 1), 1);
+        }
+
         return $query->paginate($perPage);
     }
+
+    protected function applyUserScope(Builder $query, string $userId): void {}
 
     public function find(string $id, array $relations = []): ?Model
     {

@@ -25,6 +25,9 @@ class CampaignController extends Controller
     /**
      * Display a listing of campaigns.
      *
+     * Players only see campaigns where they have a hunter.
+     * Admins see all campaigns.
+     *
      * @authenticated
      *
      * @queryParam mapId string Filter by map UUID. Example: 019bf2f1-70b4-70e2-abd2-83879497461b
@@ -34,6 +37,10 @@ class CampaignController extends Controller
     public function index(Request $request): CampaignCollection
     {
         $filters = array_filter($request->only(['mapId']));
+
+        if ($userId = $this->scopedUserId()) {
+            $filters['userId'] = $userId;
+        }
 
         return new CampaignCollection($this->campaignService->getAll($filters, $this->perPage($request)));
     }

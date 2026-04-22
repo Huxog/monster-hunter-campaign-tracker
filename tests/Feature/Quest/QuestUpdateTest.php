@@ -61,14 +61,17 @@ class QuestUpdateTest extends TestCase
             ->assertJsonPath('data.monsterId', $newMonster->id);
     }
 
-    public function test_player_cannot_update_quest(): void
+    public function test_player_can_update_quest(): void
     {
         $this->asPlayer();
-        $quest = Quest::factory()->create();
+        $quest = Quest::factory()->inProgress()->create();
 
-        $response = $this->putJson("api/quests/{$quest->id}", ['outcome' => 'success']);
+        $response = $this->putJson("api/quests/{$quest->id}", [
+            'outcome' => 'success',
+            'completedAt' => '2026-03-29T20:00:00Z',
+        ]);
 
-        $response->assertStatus(403);
+        $response->assertStatus(200);
     }
 
     public function test_unauthenticated_user_cannot_update_quest(): void

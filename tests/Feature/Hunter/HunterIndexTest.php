@@ -12,9 +12,9 @@ class HunterIndexTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_returns_paginated_hunters(): void
+    public function test_admin_returns_all_hunters(): void
     {
-        $this->asPlayer();
+        $this->asAdmin();
         Hunter::factory()->count(5)->create();
 
         $response = $this->getJson('api/hunters');
@@ -24,9 +24,22 @@ class HunterIndexTest extends TestCase
             ->assertJsonStructure(['data', 'links', 'meta']);
     }
 
+    public function test_player_returns_only_own_hunters(): void
+    {
+        $user = $this->asPlayer();
+        Hunter::factory()->count(3)->create(['userId' => $user->id]);
+        Hunter::factory()->count(2)->create();
+
+        $response = $this->getJson('api/hunters');
+
+        $response->assertStatus(200)
+            ->assertJsonCount(3, 'data')
+            ->assertJsonPath('meta.total', 3);
+    }
+
     public function test_pagination_respects_per_page_param(): void
     {
-        $this->asPlayer();
+        $this->asAdmin();
         Hunter::factory()->count(10)->create();
 
         $response = $this->getJson('api/hunters?per_page=3');
@@ -39,7 +52,7 @@ class HunterIndexTest extends TestCase
 
     public function test_per_page_is_capped_at_100(): void
     {
-        $this->asPlayer();
+        $this->asAdmin();
         Hunter::factory()->count(5)->create();
 
         $response = $this->getJson('api/hunters?per_page=999');
@@ -50,7 +63,7 @@ class HunterIndexTest extends TestCase
 
     public function test_filters_by_campaign_id(): void
     {
-        $this->asPlayer();
+        $this->asAdmin();
         $campaign = Campaign::factory()->create();
         Hunter::factory()->count(3)->create(['campaignId' => $campaign->id]);
         Hunter::factory()->count(2)->create();
@@ -64,7 +77,7 @@ class HunterIndexTest extends TestCase
 
     public function test_filters_by_class(): void
     {
-        $this->asPlayer();
+        $this->asAdmin();
         Hunter::factory()->count(3)->create(['class' => WeaponClass::Bow]);
         Hunter::factory()->count(2)->create(['class' => WeaponClass::GreatSword]);
 

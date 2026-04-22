@@ -26,12 +26,23 @@ class Hunter extends Model
         'playerName',
         'hunterName',
         'campaignId',
+        'userId',
         'helmetId',
         'vestId',
         'trousersId',
         'weaponId',
         'class',
     ];
+
+    /**
+     * User who owns this hunter
+     *
+     * @return BelongsTo<User>
+     **/
+    public function user(): BelongsTo
+    {
+        return self::belongsTo(User::class, 'userId', 'id');
+    }
 
     /**
      * Campaing related to this hunter

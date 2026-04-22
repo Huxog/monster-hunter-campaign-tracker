@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\WeaponClass;
 use App\Traits\FormatValidationFailure;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class HunterStore extends FormRequest
 {
@@ -31,6 +33,8 @@ class HunterStore extends FormRequest
             'helmetId' => 'nullable|uuid|exists:equipment,id,deleted_at,NULL,type,helmet',
             'vestId' => 'nullable|uuid|exists:equipment,id,deleted_at,NULL,type,vest',
             'trousersId' => 'nullable|uuid|exists:equipment,id,deleted_at,NULL,type,trouser',
+            'weaponId' => 'nullable|uuid|exists:weapons,id,deleted_at,NULL',
+            'class' => ['nullable', new Enum(WeaponClass::class)],
         ];
     }
 
@@ -72,6 +76,9 @@ class HunterStore extends FormRequest
             'vestId.exists' => 'The specified vest does not exist or is not a vest',
             'trousersId.uuid' => 'The trousers ID must be a valid UUID',
             'trousersId.exists' => 'The specified trousers do not exist or are not trousers',
+            'weaponId.uuid' => 'The weapon ID must be a valid UUID',
+            'weaponId.exists' => 'The specified weapon does not exist',
+            'class.'.Enum::class => 'The class must be a valid weapon class',
         ];
     }
 
@@ -87,12 +94,15 @@ class HunterStore extends FormRequest
             'campaignId.required' => 'HUN-0202-0007',
             'campaignId.uuid' => 'HUN-0202-0008',
             'campaignId.exists' => 'HUN-0202-0009',
-            'helmet.uuid' => 'HUN-0202-0010',
+            'helmetId.uuid' => 'HUN-0202-0010',
             'helmetId.exists' => 'HUN-0202-0011',
             'vestId.uuid' => 'HUN-0202-0012',
             'vestId.exists' => 'HUN-0202-0013',
             'trousersId.uuid' => 'HUN-0202-0014',
             'trousersId.exists' => 'HUN-0202-0015',
+            'weaponId.uuid' => 'HUN-0202-0016',
+            'weaponId.exists' => 'HUN-0202-0017',
+            'class.'.Enum::class => 'HUN-0202-0018',
         ];
     }
 
@@ -105,6 +115,8 @@ class HunterStore extends FormRequest
             'helmetId' => ['description' => 'UUID of the equipped helmet (must be type helmet)', 'example' => null],
             'vestId' => ['description' => 'UUID of the equipped vest (must be type vest)', 'example' => null],
             'trousersId' => ['description' => 'UUID of the equipped trousers (must be type trouser)', 'example' => null],
+            'weaponId' => ['description' => 'UUID of the equipped weapon', 'example' => null],
+            'class' => ['description' => 'The weapon class this hunter specialises in', 'example' => 'Great Sword'],
         ];
     }
 }

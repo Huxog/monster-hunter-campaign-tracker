@@ -51,6 +51,19 @@ class CampaignUpdateTest extends TestCase
             ->assertJsonPath('data.mapId', $newMap->id);
     }
 
+    public function test_player_can_update_campaign(): void
+    {
+        $this->asPlayer();
+        $campaign = Campaign::factory()->create();
+
+        $response = $this->putJson("api/campaigns/{$campaign->id}", [
+            'name' => 'Updated Name',
+            'teamName' => 'Updated Team',
+        ]);
+
+        $response->assertStatus(200);
+    }
+
     public function test_returns_404_for_non_existent_campaign(): void
     {
         $this->asAdmin();

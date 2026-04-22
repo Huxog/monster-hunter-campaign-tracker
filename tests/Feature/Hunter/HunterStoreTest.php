@@ -13,7 +13,7 @@ class HunterStoreTest extends TestCase
 
     public function test_player_can_create_hunter(): void
     {
-        $this->asPlayer();
+        $user = $this->asPlayer();
         $campaign = Campaign::factory()->create();
 
         $this->postJson('api/hunters', [
@@ -27,6 +27,7 @@ class HunterStoreTest extends TestCase
         $this->assertDatabaseHas('hunters', [
             'hunterName' => 'Artian',
             'campaignId' => $campaign->id,
+            'userId' => $user->id,
         ]);
     }
 

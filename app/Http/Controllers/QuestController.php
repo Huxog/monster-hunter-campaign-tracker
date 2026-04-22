@@ -28,6 +28,9 @@ class QuestController extends Controller
     /**
      * Display a listing of quests.
      *
+     * Players only see quests in campaigns where they have a hunter.
+     * Admins see all quests.
+     *
      * @authenticated
      *
      * @queryParam campaignId string Filter by campaign UUID. Example: 019bf2f1-70b4-70e2-abd2-83879497461b
@@ -39,6 +42,10 @@ class QuestController extends Controller
     public function index(Request $request): QuestCollection
     {
         $filters = array_filter($request->only(['campaignId', 'monsterId', 'outcome']));
+
+        if ($userId = $this->scopedUserId()) {
+            $filters['userId'] = $userId;
+        }
 
         return new QuestCollection($this->questService->getAll($filters, $this->perPage($request)));
     }

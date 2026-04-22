@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\WeaponClass;
 use App\Traits\FormatValidationFailure;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class HunterUpdate extends FormRequest
 {
@@ -30,6 +32,8 @@ class HunterUpdate extends FormRequest
             'helmetId' => 'nullable|uuid|exists:equipment,id,deleted_at,NULL,type,helmet',
             'vestId' => 'nullable|uuid|exists:equipment,id,deleted_at,NULL,type,vest',
             'trousersId' => 'nullable|uuid|exists:equipment,id,deleted_at,NULL,type,trouser',
+            'weaponId' => 'sometimes|nullable|uuid|exists:weapons,id,deleted_at,NULL',
+            'class' => ['sometimes', 'nullable', new Enum(WeaponClass::class)],
         ];
     }
 
@@ -66,6 +70,9 @@ class HunterUpdate extends FormRequest
             'vestId.exists' => 'The specified vest does not exist or is not a vest',
             'trousersId.uuid' => 'The trousers ID must be a valid UUID',
             'trousersId.exists' => 'The specified trousers do not exist or are not trousers',
+            'weaponId.uuid' => 'The weapon ID must be a valid UUID',
+            'weaponId.exists' => 'The specified weapon does not exist',
+            'class.'.Enum::class => 'The class must be a valid weapon class',
         ];
     }
 
@@ -82,6 +89,9 @@ class HunterUpdate extends FormRequest
             'vestId.exists' => 'HUN-0204-0008',
             'trousersId.uuid' => 'HUN-0204-0009',
             'trousersId.exists' => 'HUN-0204-0010',
+            'weaponId.uuid' => 'HUN-0204-0011',
+            'weaponId.exists' => 'HUN-0204-0012',
+            'class.'.Enum::class => 'HUN-0204-0013',
         ];
     }
 
@@ -93,6 +103,8 @@ class HunterUpdate extends FormRequest
             'helmetId' => ['description' => 'UUID of the equipped helmet (must be type helmet)', 'example' => null],
             'vestId' => ['description' => 'UUID of the equipped vest (must be type vest)', 'example' => null],
             'trousersId' => ['description' => 'UUID of the equipped trousers (must be type trouser)', 'example' => null],
+            'weaponId' => ['description' => 'UUID of the equipped weapon', 'example' => null],
+            'class' => ['description' => 'The weapon class this hunter specialises in', 'example' => 'Great Sword'],
         ];
     }
 }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('playerName')->nullable(false);
             $table->string('hunterName')->nullable(false);
             $table->foreignUuid('campaignId')->references('id')->on('campaigns');
+            $table->foreignUuid('userId')->references('id')->on('users');
             $table->timestamps();
             $table->softDeletes();
         });

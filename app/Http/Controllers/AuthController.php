@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Password;
 class AuthController extends Controller
 {
     use FormatExceptionResponse;
+
     public function register(RegisterRequest $request): JsonResponse
     {
         $user = User::create($request->validated());

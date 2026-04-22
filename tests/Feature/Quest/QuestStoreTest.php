@@ -52,7 +52,7 @@ class QuestStoreTest extends TestCase
             ->assertJsonPath('data.outcome', 'success');
     }
 
-    public function test_player_cannot_create_quest(): void
+    public function test_player_can_create_quest(): void
     {
         $this->asPlayer();
         $campaign = Campaign::factory()->create();
@@ -65,7 +65,7 @@ class QuestStoreTest extends TestCase
             'hunterIds' => [$hunter->id],
         ]);
 
-        $response->assertStatus(403);
+        $response->assertStatus(201);
     }
 
     public function test_unauthenticated_user_cannot_create_quest(): void

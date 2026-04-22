@@ -32,6 +32,20 @@ class CampaignStoreTest extends TestCase
         ]);
     }
 
+    public function test_player_can_create_campaign(): void
+    {
+        $this->asPlayer();
+        $map = Map::factory()->create();
+
+        $response = $this->postJson('api/campaigns', [
+            'name' => 'Player Campaign',
+            'teamName' => 'Player Team',
+            'mapId' => $map->id,
+        ]);
+
+        $response->assertStatus(201);
+    }
+
     public function test_returns_validation_error_when_name_missing(): void
     {
         $this->asAdmin();
