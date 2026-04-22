@@ -3,6 +3,7 @@
 namespace App\Interfaces;
 
 use App\Models\Campaign;
+use Illuminate\Support\Collection;
 
 /**
  * Campaign-specific service interface.
@@ -13,5 +14,5 @@ use App\Models\Campaign;
  */
 interface ICampaignService extends ICrudService
 {
-    // Add Campaign-specific methods here if needed
+    public function getLoot(string $campaignId): Collection;
 }

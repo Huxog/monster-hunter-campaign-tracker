@@ -17,6 +17,14 @@ class MaterialResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'quantity' => $this->whenPivotLoaded('loot', fn () => $this->pivot->quantity,
+                fn () => $this->whenPivotLoaded('recipes', fn () => $this->pivot->quantity,
+                    fn () => $this->when(
+                        array_key_exists('quantity', $this->resource->getAttributes()),
+                        fn () => (int) $this->quantity
+                    )
+                )
+            ),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'hunters' => HunterResource::collection($this->whenLoaded('hunters')),

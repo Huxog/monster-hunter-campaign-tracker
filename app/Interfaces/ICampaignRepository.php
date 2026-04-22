@@ -3,6 +3,7 @@
 namespace App\Interfaces;
 
 use App\Models\Campaign;
+use Illuminate\Support\Collection;
 
 /**
  * Campaign-specific repository interface.
@@ -13,6 +14,5 @@ use App\Models\Campaign;
  */
 interface ICampaignRepository extends ICrudRepository
 {
-    // Add Campaign-specific methods here if needed
-    // Example: public function findByMapId(int $mapId): Collection;
+    public function getLootByCampaignId(string $campaignId): Collection;
 }

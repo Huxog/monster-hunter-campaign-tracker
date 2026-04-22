@@ -42,6 +42,7 @@ foreach (['', 'v1'] as $version) {
             // Nested routes
             Route::get('campaigns/{campaign}/hunters', [HunterController::class, 'indexByCampaign']);
             Route::get('campaigns/{campaign}/quests', [QuestController::class, 'indexByCampaign']);
+            Route::get('campaigns/{campaign}/loot', [CampaignController::class, 'loot']);
 
             // Hunter actions
             Route::post('hunters/{hunter}/craft', [HunterController::class, 'craft']);

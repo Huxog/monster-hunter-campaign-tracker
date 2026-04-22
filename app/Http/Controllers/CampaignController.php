@@ -6,6 +6,7 @@ use App\Http\Requests\CampaignStore;
 use App\Http\Requests\CampaignUpdate;
 use App\Http\Resources\CampaignCollection;
 use App\Http\Resources\CampaignResource;
+use App\Http\Resources\MaterialCollection;
 use App\Interfaces\ICampaignService;
 use App\Models\Campaign;
 use Illuminate\Http\JsonResponse;
@@ -77,6 +78,18 @@ class CampaignController extends Controller
     public function update(CampaignUpdate $request, Campaign $campaign): CampaignResource
     {
         return new CampaignResource($this->campaignService->update($request->validated(), $campaign->id));
+    }
+
+    /**
+     * Display aggregated loot across all hunters in a campaign.
+     *
+     * Returns each unique material with the total quantity held across all hunters.
+     *
+     * @authenticated
+     */
+    public function loot(Campaign $campaign): MaterialCollection
+    {
+        return new MaterialCollection($this->campaignService->getLoot($campaign->id));
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Interfaces\ICampaignRepository;
 use App\Interfaces\ICampaignService;
+use Illuminate\Support\Collection;
 
 /**
  * Campaign service implementation.
@@ -20,5 +21,8 @@ class CampaignService extends CrudService implements ICampaignService
         parent::__construct($repository);
     }
 
-    // Add Campaign-specific business logic here if needed
+    public function getLoot(string $campaignId): Collection
+    {
+        return $this->repository->getLootByCampaignId($campaignId);
+    }
 }
