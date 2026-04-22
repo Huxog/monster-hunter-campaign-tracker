@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Interfaces\ICampaignRepository;
 use App\Interfaces\ICampaignService;
 use App\Interfaces\IHealthService;
+use App\Interfaces\ILoggingService;
 use App\Interfaces\IEquipmentRepository;
 use App\Interfaces\IEquipmentService;
 use App\Interfaces\IHunterRepository;
@@ -29,6 +30,7 @@ use App\Repositories\QuestRepository;
 use App\Repositories\WeaponRepository;
 use App\Services\CampaignService;
 use App\Services\HealthService;
+use App\Services\LoggingService;
 use App\Services\EquipmentService;
 use App\Services\HunterService;
 use App\Services\MapService;
@@ -57,6 +59,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Infrastructure bindings
         $this->app->bind(IHealthService::class, HealthService::class);
+        $this->app->bind(ILoggingService::class, LoggingService::class);
 
         // Service bindings
         $this->app->bind(IMapService::class, MapService::class);
