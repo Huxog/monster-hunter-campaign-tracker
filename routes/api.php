@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HealthController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\HunterController;
@@ -10,6 +11,8 @@ use App\Http\Controllers\MonsterController;
 use App\Http\Controllers\QuestController;
 use App\Http\Controllers\WeaponController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('health', [HealthController::class, 'check']);
 
 foreach (['', 'v1'] as $version) {
     $prefix = $version ? "/{$version}" : '';
