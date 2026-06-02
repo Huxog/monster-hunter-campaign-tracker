@@ -2,6 +2,9 @@
 COMPOSE=docker compose -f docker/docker-compose.yml --env-file ./.env
 APP_SERVICE=mh-app-service
 
+# Terraform settings
+TF_DIR=infrastructure/terraform
+
 # Storage fix commands
 chown:
 	docker exec $(APP_SERVICE) chown -R www-data:www-data /var/www/html/storage
@@ -59,6 +62,22 @@ rebuild:
 logs:
 	docker logs -f $(APP_SERVICE)
 
+# Terraform
+tf-init:
+	terraform -chdir=$(TF_DIR) init
+
+tf-plan:
+	terraform -chdir=$(TF_DIR) plan
+
+tf-apply:
+	terraform -chdir=$(TF_DIR) apply
+
+tf-destroy:
+	terraform -chdir=$(TF_DIR) destroy
+
+tf-output:
+	terraform -chdir=$(TF_DIR) output
+
 # Default target
 .DEFAULT_GOAL := help
 
@@ -80,3 +99,10 @@ help:
 	@echo "  make lint            - Check and apply lint rules"
 	@echo "  make lint-test       - List unnmet lint rules"
 	@echo "  make chown           - fix storage access permissions"
+	@echo ""
+	@echo "Terraform Commands:"
+	@echo "  make tf-init         - Initialize Terraform"
+	@echo "  make tf-plan         - Preview infrastructure changes"
+	@echo "  make tf-apply        - Apply infrastructure changes"
+	@echo "  make tf-destroy      - Destroy all infrastructure"
+	@echo "  make tf-output       - Show Terraform outputs"
