@@ -3,7 +3,7 @@ FROM php:8.2-fpm-alpine AS builder
 
 WORKDIR /var/www/html
 
-RUN apk add --no-cache libpq-dev && \
+RUN apk add --no-cache libpq-dev oniguruma-dev && \
     docker-php-ext-install pdo pdo_pgsql mbstring bcmath
 
 COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
@@ -24,7 +24,7 @@ FROM php:8.2-fpm-alpine
 WORKDIR /var/www/html
 
 # Runtime dependency only — no build tools
-RUN apk add --no-cache libpq-dev && \
+RUN apk add --no-cache libpq-dev oniguruma-dev && \
     docker-php-ext-install pdo pdo_pgsql mbstring bcmath && \
     rm -rf /var/cache/apk/*
 
