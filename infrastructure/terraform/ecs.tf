@@ -30,26 +30,30 @@ resource "aws_ecs_task_definition" "app" {
       essential = true
 
       environment = [
-        { name = "APP_NAME",          value = "MHW: The board game" },
-        { name = "APP_ENV",           value = "production" },
-        { name = "APP_DEBUG",         value = "false" },
-        { name = "APP_URL",           value = "http://${aws_lb.main.dns_name}" },
-        { name = "DB_CONNECTION",     value = "pgsql" },
-        { name = "DB_HOST",           value = aws_db_instance.main.address },
-        { name = "DB_PORT",           value = "5432" },
-        { name = "DB_DATABASE",       value = var.db_name },
-        { name = "LOG_CHANNEL",       value = "stderr" },
-        { name = "LOG_LEVEL",         value = "error" },
-        { name = "SESSION_DRIVER",    value = "database" },
-        { name = "CACHE_STORE",       value = "database" },
-        { name = "QUEUE_CONNECTION",  value = "database" },
-        { name = "BCRYPT_ROUNDS",     value = "12" },
+        { name = "APP_NAME",           value = "MHW: The board game" },
+        { name = "APP_ENV",            value = "production" },
+        { name = "APP_DEBUG",          value = "false" },
+        { name = "APP_URL",            value = "https://${var.api_domain}" },
+        { name = "FRONTEND_URL",       value = var.frontend_url },
+        { name = "DB_CONNECTION",      value = "pgsql" },
+        { name = "DB_HOST",            value = aws_db_instance.main.address },
+        { name = "DB_PORT",            value = "5432" },
+        { name = "DB_DATABASE",        value = var.db_name },
+        { name = "LOG_CHANNEL",        value = "stderr" },
+        { name = "LOG_LEVEL",          value = "error" },
+        { name = "SESSION_DRIVER",     value = "database" },
+        { name = "CACHE_STORE",        value = "database" },
+        { name = "QUEUE_CONNECTION",   value = "database" },
+        { name = "BCRYPT_ROUNDS",      value = "12" },
+        { name = "GOOGLE_REDIRECT_URI", value = "https://${var.api_domain}/api/v1/auth/google/callback" },
       ]
 
       secrets = [
-        { name = "APP_KEY",     valueFrom = "${aws_secretsmanager_secret.app.arn}:APP_KEY::" },
-        { name = "DB_USERNAME", valueFrom = "${aws_secretsmanager_secret.app.arn}:DB_USERNAME::" },
-        { name = "DB_PASSWORD", valueFrom = "${aws_secretsmanager_secret.app.arn}:DB_PASSWORD::" },
+        { name = "APP_KEY",              valueFrom = "${aws_secretsmanager_secret.app.arn}:APP_KEY::" },
+        { name = "DB_USERNAME",          valueFrom = "${aws_secretsmanager_secret.app.arn}:DB_USERNAME::" },
+        { name = "DB_PASSWORD",          valueFrom = "${aws_secretsmanager_secret.app.arn}:DB_PASSWORD::" },
+        { name = "GOOGLE_CLIENT_ID",     valueFrom = "${aws_secretsmanager_secret.app.arn}:GOOGLE_CLIENT_ID::" },
+        { name = "GOOGLE_CLIENT_SECRET", valueFrom = "${aws_secretsmanager_secret.app.arn}:GOOGLE_CLIENT_SECRET::" },
       ]
 
       logConfiguration = {
@@ -111,7 +115,7 @@ resource "aws_ecs_service" "app" {
   deployment_minimum_healthy_percent = 50
   deployment_maximum_percent         = 200
 
-  depends_on = [aws_lb_listener.http]
+  depends_on = [aws_lb_listener.https]
 
   tags = { Name = "${var.project_name}-service" }
 }

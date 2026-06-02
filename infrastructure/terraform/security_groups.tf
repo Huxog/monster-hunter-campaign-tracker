@@ -34,6 +34,16 @@ resource "aws_security_group_rule" "alb_ingress_http" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
+resource "aws_security_group_rule" "alb_ingress_https" {
+  type              = "ingress"
+  security_group_id = aws_security_group.alb.id
+  description       = "HTTPS from internet"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
 resource "aws_security_group_rule" "alb_egress_ecs" {
   type                     = "egress"
   security_group_id        = aws_security_group.alb.id

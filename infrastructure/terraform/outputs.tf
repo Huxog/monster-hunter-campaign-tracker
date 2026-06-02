@@ -3,6 +3,11 @@ output "alb_dns_name" {
   value       = aws_lb.main.dns_name
 }
 
+output "api_url" {
+  description = "Public API base URL"
+  value       = "https://${var.api_domain}"
+}
+
 output "ecr_fpm_url" {
   description = "ECR repository URL for the fpm image"
   value       = aws_ecr_repository.fpm.repository_url
