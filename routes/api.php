@@ -1,9 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\HealthController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\EquipmentController;
+use App\Http\Controllers\GoogleAuthController;
+use App\Http\Controllers\HealthController;
 use App\Http\Controllers\HunterController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\MaterialController;
@@ -24,6 +25,8 @@ foreach (['', 'v1'] as $version) {
             Route::post('login', [AuthController::class, 'login']);
             Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
             Route::post('reset-password', [AuthController::class, 'resetPassword']);
+            Route::get('google/redirect', [GoogleAuthController::class, 'redirect']);
+            Route::get('google/callback', [GoogleAuthController::class, 'callback']);
         });
 
         Route::middleware('auth:sanctum')->group(function () {
