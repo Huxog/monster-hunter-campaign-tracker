@@ -62,6 +62,19 @@ rebuild:
 logs:
 	docker logs -f $(APP_SERVICE)
 
+# Production seeding (runs db:seed on ECS)
+tf-seed:
+	$(eval SUBNET1 := $(shell terraform -chdir=$(TF_DIR) output -raw private_subnet_1))
+	$(eval SUBNET2 := $(shell terraform -chdir=$(TF_DIR) output -raw private_subnet_2))
+	$(eval SG := $(shell terraform -chdir=$(TF_DIR) output -raw ecs_security_group_id))
+	aws ecs run-task \
+		--cluster mhapi-cluster \
+		--task-definition mhapi-app \
+		--launch-type FARGATE \
+		--region us-west-1 \
+		--network-configuration "awsvpcConfiguration={subnets=[$(SUBNET1),$(SUBNET2)],securityGroups=[$(SG)],assignPublicIp=DISABLED}" \
+		--overrides '{"containerOverrides":[{"name":"fpm","command":["/bin/sh","-c","php artisan db:seed --force"]}]}'
+
 # Database tunnel (SSM port forwarding)
 db-tunnel-start:
 	@bash scripts/db-tunnel.sh start
@@ -106,6 +119,9 @@ help:
 	@echo "  make lint            - Check and apply lint rules"
 	@echo "  make lint-test       - List unnmet lint rules"
 	@echo "  make chown           - fix storage access permissions"
+	@echo ""
+	@echo "Production Commands:"
+	@echo "  make tf-seed         - Seed the production database via ECS"
 	@echo ""
 	@echo "Database Tunnel Commands:"
 	@echo "  make db-tunnel-start - Open SSM tunnel to RDS (connect pgAdmin to localhost:5432)"

@@ -88,7 +88,7 @@ resource "aws_security_group_rule" "ecs_egress_https" {
 # ── Bastion rules ─────────────────────────────────────────────────────────────
 resource "aws_security_group" "bastion" {
   name        = "${var.project_name}-bastion-sg"
-  description = "Bastion: outbound only, accessed via SSM — no inbound ports"
+  description = "Bastion: outbound only, accessed via SSM, no inbound ports"
   vpc_id      = aws_vpc.main.id
 
   tags = { Name = "${var.project_name}-bastion-sg" }
