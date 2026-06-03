@@ -85,6 +85,25 @@ resource "aws_security_group_rule" "ecs_egress_https" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
+# ── Bastion rules ─────────────────────────────────────────────────────────────
+resource "aws_security_group" "bastion" {
+  name        = "${var.project_name}-bastion-sg"
+  description = "Bastion: outbound only, accessed via SSM — no inbound ports"
+  vpc_id      = aws_vpc.main.id
+
+  tags = { Name = "${var.project_name}-bastion-sg" }
+}
+
+resource "aws_security_group_rule" "bastion_egress_all" {
+  type              = "egress"
+  security_group_id = aws_security_group.bastion.id
+  description       = "Allow all outbound for SSM and RDS"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
 # ── RDS rules ──────────────────────────────────────────────────────────────────
 resource "aws_security_group_rule" "rds_ingress_ecs" {
   type                     = "ingress"
@@ -94,4 +113,14 @@ resource "aws_security_group_rule" "rds_ingress_ecs" {
   to_port                  = 5432
   protocol                 = "tcp"
   source_security_group_id = aws_security_group.ecs.id
+}
+
+resource "aws_security_group_rule" "rds_ingress_bastion" {
+  type                     = "ingress"
+  security_group_id        = aws_security_group.rds.id
+  description              = "PostgreSQL from bastion via SSM tunnel"
+  from_port                = 5432
+  to_port                  = 5432
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.bastion.id
 }

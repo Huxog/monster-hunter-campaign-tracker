@@ -58,3 +58,13 @@ output "github_actions_role_arn" {
   description = "IAM role ARN to paste into GitHub repository variable AWS_ROLE_ARN"
   value       = aws_iam_role.github_actions.arn
 }
+
+output "bastion_instance_id" {
+  description = "Bastion EC2 instance ID — use as --target in SSM port forwarding"
+  value       = aws_instance.bastion.id
+}
+
+output "db_endpoint" {
+  description = "RDS endpoint — reachable inside VPC or via SSM tunnel"
+  value       = aws_db_instance.main.address
+}

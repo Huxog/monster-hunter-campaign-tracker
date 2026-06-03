@@ -62,6 +62,13 @@ rebuild:
 logs:
 	docker logs -f $(APP_SERVICE)
 
+# Database tunnel (SSM port forwarding)
+db-tunnel-start:
+	@bash scripts/db-tunnel.sh start
+
+db-tunnel-stop:
+	@bash scripts/db-tunnel.sh stop
+
 # Terraform
 tf-init:
 	terraform -chdir=$(TF_DIR) init
@@ -99,6 +106,10 @@ help:
 	@echo "  make lint            - Check and apply lint rules"
 	@echo "  make lint-test       - List unnmet lint rules"
 	@echo "  make chown           - fix storage access permissions"
+	@echo ""
+	@echo "Database Tunnel Commands:"
+	@echo "  make db-tunnel-start - Open SSM tunnel to RDS (connect pgAdmin to localhost:5432)"
+	@echo "  make db-tunnel-stop  - Close the SSM tunnel"
 	@echo ""
 	@echo "Terraform Commands:"
 	@echo "  make tf-init         - Initialize Terraform"
