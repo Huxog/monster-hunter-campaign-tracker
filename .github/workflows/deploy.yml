@@ -91,23 +91,54 @@ jobs:
     name: Run Migrations
     runs-on: ubuntu-latest
     needs: build-push
+    outputs:
+      task-def-arn: ${{ steps.register.outputs.task-def-arn }}
     permissions:
       id-token: write
       contents: read
 
     steps:
+      - uses: actions/checkout@v4
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Login to ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Download current task definition
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition ${{ env.ECS_TASK_DEFINITION }} \
+            --query taskDefinition > task-definition.json
+
+      - name: Update fpm image in task definition
+        id: render-task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: fpm
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_FPM_REPOSITORY }}:${{ needs.build-push.outputs.image-tag }}
+
+      - name: Register updated task definition
+        id: register
+        run: |
+          TASK_DEF_ARN=$(aws ecs register-task-definition \
+            --cli-input-json file://${{ steps.render-task-def.outputs.task-definition }} \
+            --query 'taskDefinition.taskDefinitionArn' \
+            --output text)
+          echo "task-def-arn=$TASK_DEF_ARN" >> $GITHUB_OUTPUT
+
       - name: Run migration task
         id: run-task
         run: |
           TASK_ARN=$(aws ecs run-task \
             --cluster ${{ env.ECS_CLUSTER }} \
-            --task-definition ${{ env.ECS_TASK_DEFINITION }} \
+            --task-definition ${{ steps.register.outputs.task-def-arn }} \
             --launch-type FARGATE \
             --network-configuration "awsvpcConfiguration={subnets=[${{ vars.VPC_PRIVATE_SUBNET_1 }},${{ vars.VPC_PRIVATE_SUBNET_2 }}],securityGroups=[${{ vars.ECS_SECURITY_GROUP }}],assignPublicIp=DISABLED}" \
             --overrides '{"containerOverrides":[{"name":"fpm","command":["/bin/sh","-c","php artisan config:cache && php artisan migrate --force && php artisan permission:cache-reset"]}]}' \
@@ -144,36 +175,23 @@ jobs:
       contents: read
 
     steps:
-      - uses: actions/checkout@v4
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Login to ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Download current task definition
+      - name: Update ECS service
         run: |
-          aws ecs describe-task-definition \
-            --task-definition ${{ env.ECS_TASK_DEFINITION }} \
-            --query taskDefinition > task-definition.json
+          aws ecs update-service \
+            --cluster ${{ env.ECS_CLUSTER }} \
+            --service ${{ env.ECS_SERVICE }} \
+            --task-definition ${{ needs.migrate.outputs.task-def-arn }} \
+            --region ${{ env.AWS_REGION }}
 
-      - name: Update fpm image in task definition
-        id: render-task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: task-definition.json
-          container-name: fpm
-          image: ${{ steps.login-ecr.outputs.registry }}/mhapi/fpm:${{ needs.build-push.outputs.image-tag }}
-
-      - name: Deploy updated task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.render-task-def.outputs.task-definition }}
-          service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
+      - name: Wait for service to stabilize
+        run: |
+          aws ecs wait services-stable \
+            --cluster ${{ env.ECS_CLUSTER }} \
+            --services ${{ env.ECS_SERVICE }} \
+            --region ${{ env.AWS_REGION }}
