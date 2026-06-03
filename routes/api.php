@@ -16,9 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('health', [HealthController::class, 'check']);
 
 foreach (['', 'v1'] as $version) {
-    $prefix = $version ? "/{$version}" : '';
+    $prefix = $version ?: '';
+    $namePrefix = $version ? 'v1.' : 'v0.';
 
-    Route::prefix(ltrim($prefix, '/'))->group(function () {
+    Route::prefix($prefix)->name($namePrefix)->group(function () {
         // Public auth routes
         Route::prefix('auth')->group(function () {
             Route::post('register', [AuthController::class, 'register']);
